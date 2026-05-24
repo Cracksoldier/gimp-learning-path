@@ -249,8 +249,9 @@ function renderSection(section) {
   return `<div class="section-block" id="section-${section.id}" data-level="${section.level}">
   <div class="section-header">
     <span class="section-badge">${section.title}</span>
-    <span class="section-desc">${section.description}</span>
+    <span class="section-title">${section.title}</span>
   </div>
+  <p class="section-desc">${section.description}</p>
   <div class="subsection lessons-sub" data-section="${section.id}" data-type="lessons">
     <div class="subsection-heading">
       <span class="subsection-heading-text">Lessons</span>
@@ -341,9 +342,9 @@ function handleMarkAll(event, sectionId, type, value) {
 // ─── Search & Filter ──────────────────────────────────────────────────────────
 
 function handleSearch() {
-  searchQuery = document.getElementById('search-input').value.toLowerCase().trim();
-  const clearBtn = document.getElementById('search-clear');
-  clearBtn.classList.toggle('visible', !!searchQuery);
+  const raw = document.getElementById('search-input').value;
+  searchQuery = raw.toLowerCase().trim();
+  document.getElementById('search-clear').classList.toggle('visible', raw.length > 0);
   applySearchAndFilter();
 }
 
@@ -498,7 +499,7 @@ function handleJumpNext() {
         if (card && card.style.display !== 'none') {
           card.scrollIntoView({ behavior: 'smooth', block: 'center' });
           setFocusedCard(lesson.id);
-          setTimeout(() => { if (focusedCardId === lesson.id) card.classList.remove('card-focused'); }, 1500);
+          setTimeout(() => { if (focusedCardId === lesson.id) { card.classList.remove('card-focused'); focusedCardId = null; } }, 1500);
           return;
         }
       }
@@ -509,7 +510,7 @@ function handleJumpNext() {
         if (card && card.style.display !== 'none') {
           card.scrollIntoView({ behavior: 'smooth', block: 'center' });
           setFocusedCard(challenge.id);
-          setTimeout(() => { if (focusedCardId === challenge.id) card.classList.remove('card-focused'); }, 1500);
+          setTimeout(() => { if (focusedCardId === challenge.id) { card.classList.remove('card-focused'); focusedCardId = null; } }, 1500);
           return;
         }
       }
@@ -558,6 +559,13 @@ function confirmReset() {
   closeModal();
   state = defaultState();
   saveState();
+  searchQuery = '';
+  currentFilter = 'all';
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-clear').classList.remove('visible');
+  document.querySelectorAll('.filter-pill').forEach(btn =>
+    btn.classList.toggle('active', btn.dataset.filter === 'all')
+  );
   fullRerender();
   showToast('Progress reset.', '');
 }
@@ -607,6 +615,7 @@ function handleImportFile(e) {
 // ─── Full Re-Render ───────────────────────────────────────────────────────────
 
 function fullRerender() {
+  focusedCardId = null;
   renderSidebar();
   render();
   renderProgressBars();
@@ -625,6 +634,7 @@ function init() {
 
   applyTheme(state.theme);
   fullRerender();
+  updateSidebarActive(LEARNING_PATH[0].id);
 
   document.getElementById('search-input').addEventListener('input', handleSearch);
   document.getElementById('import-file').addEventListener('change', handleImportFile);

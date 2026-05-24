@@ -281,6 +281,9 @@ a { color: var(--accent); text-decoration: none; }
 .nav-item.active[data-level="expert"]       { border-left-color: var(--expert); }
 
 .progress-ring { flex-shrink: 0; }
+.progress-ring circle:nth-child(2) {
+  transition: stroke-dashoffset 0.45s cubic-bezier(0.4,0,0.2,1);
+}
 
 .nav-text  { flex: 1; font-size: 13px; font-weight: 500; }
 .nav-count { font-size: 11px; color: var(--text-dim); font-variant-numeric: tabular-nums; }
