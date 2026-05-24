@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GIMP Learning Path — Photoshop to GIMP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>/* __CSS__ */</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="header-top">
+    <div class="header-title">
+      <h1>GIMP Learning Path</h1>
+      <p>Structured guide for Photoshop users — Beginner to Expert</p>
+    </div>
+    <div class="header-actions">
+      <input type="file" id="import-file" accept=".json">
+      <button class="btn btn-ghost" onclick="handleJumpNext()" title="Jump to next uncompleted item">→ Next</button>
+      <button class="btn btn-ghost" onclick="handleShareClick()" title="Copy shareable link">⬗ Share</button>
+      <button class="btn btn-ghost" onclick="handleImportButton()">⬆ Import</button>
+      <button class="btn btn-ghost" onclick="handleExport()">⬇ Export</button>
+      <button class="btn btn-ghost" id="theme-btn" onclick="handleThemeToggle()" title="Toggle theme">☀</button>
+      <button class="btn btn-danger" onclick="handleResetClick()">↺ Reset</button>
+    </div>
+  </div>
+
+  <div class="progress-section">
+    <div class="progress-item">
+      <div class="progress-label">
+        <span class="progress-label-name">Lessons</span>
+        <span class="progress-label-count" id="lesson-count">0 / 36 (0%)</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill lessons" id="lesson-bar"></div>
+      </div>
+    </div>
+    <div class="progress-item">
+      <div class="progress-label">
+        <span class="progress-label-name">Challenges</span>
+        <span class="progress-label-count" id="challenge-count">0 / 19 (0%)</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill challenges" id="challenge-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toolbar-row">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" class="search-input" placeholder="Search lessons &amp; challenges…" autocomplete="off">
+      <button class="search-clear" id="search-clear" onclick="clearSearch()" title="Clear search">✕</button>
+    </div>
+    <div class="filter-pills" id="filter-pills">
+      <button class="filter-pill active" data-filter="all"          onclick="handleFilter('all')">All</button>
+      <button class="filter-pill"        data-filter="uncompleted"  onclick="handleFilter('uncompleted')">Uncompleted</button>
+      <button class="filter-pill"        data-filter="lessons"      onclick="handleFilter('lessons')">Lessons</button>
+      <button class="filter-pill"        data-filter="challenges"   onclick="handleFilter('challenges')">Challenges</button>
+      <button class="filter-pill"        data-filter="beginner"     onclick="handleFilter('beginner')">Beginner</button>
+      <button class="filter-pill"        data-filter="intermediate" onclick="handleFilter('intermediate')">Intermediate</button>
+      <button class="filter-pill"        data-filter="advanced"     onclick="handleFilter('advanced')">Advanced</button>
+      <button class="filter-pill"        data-filter="expert"       onclick="handleFilter('expert')">Expert</button>
+    </div>
+  </div>
+</header>
+
+<div class="app-body">
+  <nav class="sidebar" id="sidebar"></nav>
+  <main class="main-content" id="main-content"></main>
+</div>
+
+<div class="modal-overlay" id="reset-modal">
+  <div class="modal">
+    <h3>Reset all progress?</h3>
+    <p>This will clear all checked lessons, challenges, and notes. Your progress cannot be recovered unless you exported it first.</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-confirm" onclick="confirmReset()">Reset everything</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* __DATA__ */
+/* __APP__ */
+</script>
+</body>
+</html>

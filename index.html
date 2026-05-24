@@ -7,8 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-/* ── Tokens ─────────────────────────────────────────────────── */
+<style>/* ── Tokens (dark theme default) ─────────────────────────────── */
 :root {
   --bg:            #0d1117;
   --surface:       #161b22;
@@ -34,8 +33,20 @@
   --radius:        10px;
   --radius-lg:     14px;
 
-  --sidebar-w:     240px;
-  --header-h:      auto;
+  --sidebar-w:     250px;
+}
+
+/* ── Light theme overrides ───────────────────────────────────── */
+[data-theme="light"] {
+  --bg:            #f6f8fa;
+  --surface:       #ffffff;
+  --surface-2:     #f0f2f5;
+  --border:        #d0d7de;
+  --border-subtle: #eaeef2;
+  --text:          #1f2328;
+  --text-muted:    #636c76;
+  --text-dim:      #9198a1;
+  --accent-dim:    #ddf4ff;
 }
 
 /* ── Reset ──────────────────────────────────────────────────── */
@@ -57,7 +68,7 @@ a { color: var(--accent); text-decoration: none; }
 .app-header {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
-  padding: 20px 28px;
+  padding: 16px 24px;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -66,24 +77,24 @@ a { color: var(--accent); text-decoration: none; }
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: wrap;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 .header-title h1 {
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 700;
   color: var(--text);
   letter-spacing: -0.3px;
 }
 .header-title p {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-muted);
   margin-top: 2px;
 }
 .header-actions {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-shrink: 0;
   flex-wrap: wrap;
   align-items: center;
@@ -93,10 +104,10 @@ a { color: var(--accent); text-decoration: none; }
 .btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 7px 14px;
+  gap: 5px;
+  padding: 6px 12px;
   border-radius: var(--radius-sm);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   border: 1px solid transparent;
   transition: background 0.15s, border-color 0.15s, opacity 0.15s;
@@ -115,38 +126,38 @@ a { color: var(--accent); text-decoration: none; }
   color: #f85149;
 }
 .btn-danger:hover { border-color: #f85149; background: rgba(248,81,73,0.08); }
-.btn-icon { font-size: 15px; line-height: 1; }
 
 /* ── Progress bars ───────────────────────────────────────────── */
 .progress-section {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
+  margin-bottom: 2px;
 }
 .progress-item {
   flex: 1;
-  min-width: 200px;
+  min-width: 180px;
 }
 .progress-label {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 .progress-label-name {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.6px;
   color: var(--text-muted);
 }
 .progress-label-count {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--text);
 }
 .progress-track {
-  height: 8px;
+  height: 7px;
   background: var(--surface-2);
   border-radius: 999px;
   overflow: hidden;
@@ -158,8 +169,75 @@ a { color: var(--accent); text-decoration: none; }
   width: 0%;
   transition: width 0.45s cubic-bezier(0.4,0,0.2,1);
 }
-.progress-fill.lessons  { background: var(--bar-lessons); }
+.progress-fill.lessons    { background: var(--bar-lessons); }
 .progress-fill.challenges { background: var(--bar-challenges); }
+
+/* ── Toolbar row (search + filter) ──────────────────────────── */
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.search-icon {
+  position: absolute;
+  left: 8px;
+  font-size: 12px;
+  pointer-events: none;
+  color: var(--text-dim);
+}
+.search-input {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 12px;
+  padding: 5px 26px 5px 26px;
+  width: 210px;
+  transition: border-color 0.15s, width 0.2s;
+}
+.search-input:focus { outline: none; border-color: var(--accent); width: 270px; }
+.search-input::placeholder { color: var(--text-dim); }
+.search-clear {
+  position: absolute;
+  right: 6px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 11px;
+  cursor: pointer;
+  padding: 2px;
+  display: none;
+  line-height: 1;
+}
+.search-clear.visible { display: block; }
+.filter-pills {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter-pill {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  white-space: nowrap;
+}
+.filter-pill:hover { border-color: var(--text-muted); color: var(--text); }
+.filter-pill.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
 
 /* ── Layout shell ────────────────────────────────────────────── */
 .app-body {
@@ -196,7 +274,6 @@ a { color: var(--accent); text-decoration: none; }
   gap: 10px;
   padding: 9px 16px;
   cursor: pointer;
-  border-radius: 0;
   transition: background 0.12s;
   border-left: 3px solid transparent;
   text-decoration: none;
@@ -212,18 +289,9 @@ a { color: var(--accent); text-decoration: none; }
 .nav-item.active[data-level="advanced"]     { border-left-color: var(--advanced); }
 .nav-item.active[data-level="expert"]       { border-left-color: var(--expert); }
 
-.nav-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-[data-level="beginner"]     .nav-dot { background: var(--beginner); }
-[data-level="intermediate"] .nav-dot { background: var(--intermediate); }
-[data-level="advanced"]     .nav-dot { background: var(--advanced); }
-[data-level="expert"]       .nav-dot { background: var(--expert); }
+.progress-ring { flex-shrink: 0; }
 
-.nav-text { flex: 1; font-size: 13px; font-weight: 500; }
+.nav-text  { flex: 1; font-size: 13px; font-weight: 500; }
 .nav-count { font-size: 11px; color: var(--text-dim); font-variant-numeric: tabular-nums; }
 
 .sidebar-divider {
@@ -249,14 +317,28 @@ a { color: var(--accent); text-decoration: none; }
 .main-content {
   flex: 1;
   padding: 32px 36px;
-  max-width: 900px;
+  max-width: 920px;
   overflow-x: hidden;
 }
 
-/* ── Section block ───────────────────────────────────────────── */
-.section-block {
-  margin-bottom: 56px;
+/* ── Completion banner ───────────────────────────────────────── */
+.completion-banner {
+  background: linear-gradient(135deg, rgba(63,185,80,0.1), rgba(88,166,255,0.1));
+  border: 1px solid rgba(63,185,80,0.3);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 32px;
+  display: none;
+  align-items: center;
+  gap: 12px;
 }
+.completion-banner.visible { display: flex; }
+.completion-banner-icon { font-size: 28px; }
+.completion-banner-text h3 { font-size: 15px; font-weight: 700; color: var(--beginner); margin-bottom: 3px; }
+.completion-banner-text p  { font-size: 13px; color: var(--text-muted); }
+
+/* ── Section block ───────────────────────────────────────────── */
+.section-block { margin-bottom: 56px; }
 .section-header {
   display: flex;
   align-items: center;
@@ -297,21 +379,40 @@ a { color: var(--accent); text-decoration: none; }
   margin: 24px 0 12px;
 }
 .subsection-heading-text {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.6px;
   color: var(--text-muted);
+  white-space: nowrap;
 }
 .subsection-count {
   font-size: 11px;
   color: var(--text-dim);
   font-weight: 500;
+  white-space: nowrap;
 }
-.subsection-line {
-  flex: 1;
-  height: 1px;
-  background: var(--border);
+.subsection-line { flex: 1; height: 1px; background: var(--border); }
+.mark-all-btn {
+  font-size: 11px;
+  color: var(--text-dim);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 2px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 0.12s, border-color 0.12s;
+}
+.mark-all-btn:hover { color: var(--text); border-color: var(--text-muted); }
+
+/* ── Est badge ───────────────────────────────────────────────── */
+.est-badge {
+  font-size: 11px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* ── Lesson card ─────────────────────────────────────────────── */
@@ -329,10 +430,7 @@ a { color: var(--accent); text-decoration: none; }
   user-select: none;
 }
 .lesson-card:hover { border-color: var(--text-dim); }
-.lesson-card.completed {
-  opacity: 0.6;
-  background: var(--surface);
-}
+.lesson-card.completed { opacity: 0.55; }
 .lesson-card.completed .lesson-title { text-decoration: line-through; color: var(--text-muted); }
 
 .lesson-checkbox {
@@ -355,23 +453,18 @@ a { color: var(--accent); text-decoration: none; }
   color: #0d1117;
 }
 [data-level="intermediate"] .lesson-card.completed .lesson-checkbox { background: var(--intermediate); border-color: var(--intermediate); }
-[data-level="advanced"]     .lesson-card.completed .lesson-checkbox { background: var(--advanced); border-color: var(--advanced); }
-[data-level="expert"]       .lesson-card.completed .lesson-checkbox { background: var(--expert); border-color: var(--expert); }
+[data-level="advanced"]     .lesson-card.completed .lesson-checkbox { background: var(--advanced);     border-color: var(--advanced); }
+[data-level="expert"]       .lesson-card.completed .lesson-checkbox { background: var(--expert);       border-color: var(--expert); }
 
 .lesson-body { flex: 1; min-width: 0; }
 .lesson-title-row {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
+  gap: 7px;
   flex-wrap: wrap;
   margin-bottom: 5px;
 }
-.lesson-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  transition: color 0.2s;
-}
+.lesson-title { font-size: 14px; font-weight: 600; color: var(--text); }
 .ps-callout {
   display: inline-flex;
   align-items: center;
@@ -387,18 +480,13 @@ a { color: var(--accent); text-decoration: none; }
   flex-shrink: 0;
 }
 .ps-callout-prefix { font-weight: 700; font-size: 10px; opacity: 0.8; }
-
 .lesson-desc {
   font-size: 13px;
   color: var(--text-muted);
   line-height: 1.65;
   margin-bottom: 8px;
 }
-.concept-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
+.concept-chips { display: flex; flex-wrap: wrap; gap: 5px; }
 .concept-chip {
   font-size: 11px;
   padding: 2px 8px;
@@ -427,9 +515,7 @@ a { color: var(--accent); text-decoration: none; }
 .challenge-card::before {
   content: '';
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
+  left: 0; top: 0; bottom: 0;
   width: 4px;
   border-radius: var(--radius) 0 0 var(--radius);
 }
@@ -439,7 +525,7 @@ a { color: var(--accent); text-decoration: none; }
 [data-level="expert"]       .challenge-card::before { background: var(--expert); }
 
 .challenge-card:hover { border-color: var(--text-dim); }
-.challenge-card.completed { opacity: 0.6; }
+.challenge-card.completed { opacity: 0.55; }
 .challenge-card.completed .challenge-title { text-decoration: line-through; color: var(--text-muted); }
 
 .challenge-checkbox {
@@ -466,7 +552,7 @@ a { color: var(--accent); text-decoration: none; }
 .challenge-title-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   flex-wrap: wrap;
   margin-bottom: 5px;
 }
@@ -480,10 +566,10 @@ a { color: var(--accent); text-decoration: none; }
   padding: 2px 7px;
   border-radius: 999px;
 }
-.difficulty-badge.easy   { background: rgba(63,185,80,0.15); color: #3fb950; border: 1px solid rgba(63,185,80,0.3); }
+.difficulty-badge.easy   { background: rgba(63,185,80,0.15);  color: #3fb950; border: 1px solid rgba(63,185,80,0.3); }
 .difficulty-badge.medium { background: rgba(210,153,34,0.15); color: #d29922; border: 1px solid rgba(210,153,34,0.3); }
-.difficulty-badge.hard   { background: rgba(247,129,102,0.15); color: #f78166; border: 1px solid rgba(247,129,102,0.3); }
-.difficulty-badge.expert { background: rgba(248,81,73,0.15); color: #f85149; border: 1px solid rgba(248,81,73,0.3); }
+.difficulty-badge.hard   { background: rgba(247,129,102,0.15);color: #f78166; border: 1px solid rgba(247,129,102,0.3); }
+.difficulty-badge.expert { background: rgba(248,81,73,0.15);  color: #f85149; border: 1px solid rgba(248,81,73,0.3); }
 
 .challenge-desc {
   font-size: 13px;
@@ -499,10 +585,48 @@ a { color: var(--accent); text-decoration: none; }
   background: var(--surface-2);
   border-radius: var(--radius-sm);
   border-left: 2px solid var(--bar-challenges);
+  margin-bottom: 8px;
 }
 .challenge-goal strong { color: var(--text-muted); font-style: normal; }
 
-/* ── Toast / notification ────────────────────────────────────── */
+/* ── Notes ───────────────────────────────────────────────────── */
+.note-area { overflow: hidden; }
+.note-toggle {
+  font-size: 11px;
+  color: var(--text-dim);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: block;
+  transition: color 0.12s;
+}
+.note-toggle:hover { color: var(--text-muted); }
+.note-textarea {
+  display: none;
+  width: 100%;
+  margin-top: 6px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 12px;
+  padding: 8px 10px;
+  resize: vertical;
+  min-height: 60px;
+  line-height: 1.5;
+}
+.note-textarea:focus { outline: none; border-color: var(--accent); }
+.note-area.expanded .note-textarea { display: block; }
+
+/* ── Keyboard focus ring ─────────────────────────────────────── */
+.card-focused {
+  outline: 2px solid var(--accent) !important;
+  outline-offset: 2px;
+}
+
+/* ── Toast ───────────────────────────────────────────────────── */
 .toast {
   position: fixed;
   bottom: 24px;
@@ -510,7 +634,7 @@ a { color: var(--accent); text-decoration: none; }
   background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 12px 18px;
+  padding: 11px 16px;
   font-size: 13px;
   color: var(--text);
   z-index: 9999;
@@ -518,10 +642,12 @@ a { color: var(--accent); text-decoration: none; }
   transform: translateY(8px);
   transition: opacity 0.2s, transform 0.2s;
   pointer-events: none;
+  max-width: 340px;
 }
-.toast.show { opacity: 1; transform: translateY(0); }
+.toast.show    { opacity: 1; transform: translateY(0); }
 .toast.success { border-color: var(--beginner); }
 .toast.error   { border-color: var(--expert); }
+.toast.info    { border-color: var(--accent); }
 
 /* ── Modal ───────────────────────────────────────────────────── */
 .modal-overlay {
@@ -542,29 +668,13 @@ a { color: var(--accent); text-decoration: none; }
   max-width: 380px;
   width: 90%;
 }
-.modal h3 { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
-.modal p { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.65; }
+.modal h3  { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+.modal p   { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.65; }
 .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
-.btn-confirm { background: #f85149; border: none; color: #fff; padding: 8px 16px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; }
+.btn-confirm { background: #f85149; border: none; color: #fff; padding: 8px 16px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; }
 .btn-confirm:hover { background: #da3630; }
-.btn-cancel { background: transparent; border: 1px solid var(--border); color: var(--text-muted); padding: 8px 16px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; }
+.btn-cancel  { background: transparent; border: 1px solid var(--border); color: var(--text-muted); padding: 8px 16px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; cursor: pointer; }
 .btn-cancel:hover { border-color: var(--text-muted); color: var(--text); }
-
-/* ── Completion banner ───────────────────────────────────────── */
-.completion-banner {
-  background: linear-gradient(135deg, rgba(63,185,80,0.1), rgba(88,166,255,0.1));
-  border: 1px solid rgba(63,185,80,0.3);
-  border-radius: var(--radius);
-  padding: 16px 20px;
-  margin-bottom: 32px;
-  display: none;
-  align-items: center;
-  gap: 12px;
-}
-.completion-banner.visible { display: flex; }
-.completion-banner-icon { font-size: 28px; }
-.completion-banner-text h3 { font-size: 15px; font-weight: 700; color: var(--beginner); margin-bottom: 3px; }
-.completion-banner-text p { font-size: 13px; color: var(--text-muted); }
 
 /* ── Responsive ──────────────────────────────────────────────── */
 @media (max-width: 768px) {
@@ -592,14 +702,19 @@ a { color: var(--accent); text-decoration: none; }
     white-space: nowrap;
     flex-shrink: 0;
   }
-  .nav-item.active[data-level="beginner"]     { border-bottom-color: var(--beginner); border-left-color: transparent; }
+  .nav-item.active[data-level="beginner"]     { border-bottom-color: var(--beginner);     border-left-color: transparent; }
   .nav-item.active[data-level="intermediate"] { border-bottom-color: var(--intermediate); border-left-color: transparent; }
-  .nav-item.active[data-level="advanced"]     { border-bottom-color: var(--advanced); border-left-color: transparent; }
-  .nav-item.active[data-level="expert"]       { border-bottom-color: var(--expert); border-left-color: transparent; }
+  .nav-item.active[data-level="advanced"]     { border-bottom-color: var(--advanced);     border-left-color: transparent; }
+  .nav-item.active[data-level="expert"]       { border-bottom-color: var(--expert);       border-left-color: transparent; }
   .nav-count { display: none; }
   .main-content { padding: 20px 16px; }
   .header-top { flex-direction: column; }
-  .app-header { padding: 16px; }
+  .app-header { padding: 12px 16px; }
+  .toolbar-row { flex-direction: column; align-items: flex-start; }
+  .filter-pills { overflow-x: auto; flex-wrap: nowrap; width: 100%; }
+  .search-input { width: 100%; }
+  .search-input:focus { width: 100%; }
+  .search-wrap { width: 100%; }
 }
 @media (max-width: 480px) {
   .progress-section { flex-direction: column; }
@@ -616,11 +731,35 @@ a { color: var(--accent); text-decoration: none; }
 .section-block:nth-child(2) { animation-delay: 0.10s; }
 .section-block:nth-child(3) { animation-delay: 0.15s; }
 .section-block:nth-child(4) { animation-delay: 0.20s; }
+
+/* ── Print ───────────────────────────────────────────────────── */
+@media print {
+  .app-header { position: static; }
+  .header-actions, .toolbar-row, .sidebar, .toast, .modal-overlay,
+  .completion-banner, .mark-all-btn { display: none !important; }
+  .app-body { display: block; }
+  .main-content { padding: 0; max-width: 100%; }
+  .section-block { break-before: page; animation: none; opacity: 1 !important; }
+  .section-block:first-child { break-before: auto; }
+  .concept-chips, .note-area { display: none !important; }
+  .lesson-card, .challenge-card {
+    border: none;
+    border-bottom: 1px solid #ddd;
+    border-radius: 0;
+    padding: 6px 4px;
+    margin: 0;
+    opacity: 1 !important;
+  }
+  .lesson-card:hover, .challenge-card:hover { border-color: #ddd; }
+  .progress-track { display: none; }
+  .progress-label { margin-bottom: 2px; }
+  .section-badge { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .challenge-card::before { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
 </style>
 </head>
 <body>
 
-<!-- Header -->
 <header class="app-header">
   <div class="header-top">
     <div class="header-title">
@@ -629,22 +768,20 @@ a { color: var(--accent); text-decoration: none; }
     </div>
     <div class="header-actions">
       <input type="file" id="import-file" accept=".json">
-      <button class="btn btn-ghost" onclick="handleImportButton()">
-        <span class="btn-icon">⬆</span> Import
-      </button>
-      <button class="btn btn-ghost" onclick="handleExport()">
-        <span class="btn-icon">⬇</span> Export
-      </button>
-      <button class="btn btn-danger" onclick="handleResetClick()">
-        <span class="btn-icon">↺</span> Reset
-      </button>
+      <button class="btn btn-ghost" onclick="handleJumpNext()" title="Jump to next uncompleted item">→ Next</button>
+      <button class="btn btn-ghost" onclick="handleShareClick()" title="Copy shareable link">⬗ Share</button>
+      <button class="btn btn-ghost" onclick="handleImportButton()">⬆ Import</button>
+      <button class="btn btn-ghost" onclick="handleExport()">⬇ Export</button>
+      <button class="btn btn-ghost" id="theme-btn" onclick="handleThemeToggle()" title="Toggle theme">☀</button>
+      <button class="btn btn-danger" onclick="handleResetClick()">↺ Reset</button>
     </div>
   </div>
+
   <div class="progress-section">
     <div class="progress-item">
       <div class="progress-label">
         <span class="progress-label-name">Lessons</span>
-        <span class="progress-label-count" id="lesson-count">0 / 32 (0%)</span>
+        <span class="progress-label-count" id="lesson-count">0 / 36 (0%)</span>
       </div>
       <div class="progress-track">
         <div class="progress-fill lessons" id="lesson-bar"></div>
@@ -653,26 +790,42 @@ a { color: var(--accent); text-decoration: none; }
     <div class="progress-item">
       <div class="progress-label">
         <span class="progress-label-name">Challenges</span>
-        <span class="progress-label-count" id="challenge-count">0 / 15 (0%)</span>
+        <span class="progress-label-count" id="challenge-count">0 / 19 (0%)</span>
       </div>
       <div class="progress-track">
         <div class="progress-fill challenges" id="challenge-bar"></div>
       </div>
     </div>
   </div>
+
+  <div class="toolbar-row">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" class="search-input" placeholder="Search lessons &amp; challenges…" autocomplete="off">
+      <button class="search-clear" id="search-clear" onclick="clearSearch()" title="Clear search">✕</button>
+    </div>
+    <div class="filter-pills" id="filter-pills">
+      <button class="filter-pill active" data-filter="all"          onclick="handleFilter('all')">All</button>
+      <button class="filter-pill"        data-filter="uncompleted"  onclick="handleFilter('uncompleted')">Uncompleted</button>
+      <button class="filter-pill"        data-filter="lessons"      onclick="handleFilter('lessons')">Lessons</button>
+      <button class="filter-pill"        data-filter="challenges"   onclick="handleFilter('challenges')">Challenges</button>
+      <button class="filter-pill"        data-filter="beginner"     onclick="handleFilter('beginner')">Beginner</button>
+      <button class="filter-pill"        data-filter="intermediate" onclick="handleFilter('intermediate')">Intermediate</button>
+      <button class="filter-pill"        data-filter="advanced"     onclick="handleFilter('advanced')">Advanced</button>
+      <button class="filter-pill"        data-filter="expert"       onclick="handleFilter('expert')">Expert</button>
+    </div>
+  </div>
 </header>
 
-<!-- Body -->
 <div class="app-body">
   <nav class="sidebar" id="sidebar"></nav>
   <main class="main-content" id="main-content"></main>
 </div>
 
-<!-- Reset confirmation modal -->
 <div class="modal-overlay" id="reset-modal">
   <div class="modal">
     <h3>Reset all progress?</h3>
-    <p>This will clear all checked lessons and challenges. Your progress cannot be recovered unless you exported it first.</p>
+    <p>This will clear all checked lessons, challenges, and notes. Your progress cannot be recovered unless you exported it first.</p>
     <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal()">Cancel</button>
       <button class="btn-confirm" onclick="confirmReset()">Reset everything</button>
@@ -680,11 +833,9 @@ a { color: var(--accent); text-decoration: none; }
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-/* ── Learning path data ──────────────────────────────────────── */
 const LEARNING_PATH = [
   {
     id: 'beginner',
@@ -693,83 +844,86 @@ const LEARNING_PATH = [
     description: 'Essential GIMP concepts for Photoshop users. Learn the new interface, tool names, and fundamental workflows that map directly from what you already know.',
     lessons: [
       {
-        id: 'beginner-1',
+        id: 'beginner-1', est: '20 min',
         title: 'Interface Overview & Workspace',
         psEquivalent: 'PS Workspace / Panels',
         description: 'GIMP uses a multi-window layout by default, but Single-Window Mode (Windows › Single-Window Mode) closely mirrors Photoshop\'s workspace. The Toolbox lives on the left, Tool Options below it, and Dockable Dialogs (Layers, Colors, etc.) on the right.',
         concepts: ['Single-Window Mode', 'Toolbox', 'Tool Options', 'Dockable Dialogs', 'Windows › Dockable Dialogs']
       },
       {
-        id: 'beginner-2',
+        id: 'beginner-2', est: '15 min',
         title: 'Essential Tool Equivalents',
         psEquivalent: 'PS Toolbox',
-        description: 'Master the GIMP toolbox by mapping each Photoshop tool to its GIMP counterpart. Keyboard shortcuts differ — Move is still M, but Transform/Scale is Shift+T, and the Quick Mask is Q instead of a panel button.',
+        description: 'Master the GIMP toolbox by mapping each Photoshop tool to its GIMP counterpart. Keyboard shortcuts differ — Move is still M, but Transform/Scale is Shift+T, and Quick Mask is Q instead of a panel button.',
         concepts: ['Move Tool (M)', 'Scale Tool (Shift+T)', 'Align Tool', 'Crop Tool (Shift+C)', 'Flip Tool']
       },
       {
-        id: 'beginner-3',
+        id: 'beginner-3', est: '15 min',
         title: 'Selection Tools: Marquee to Free Select',
         psEquivalent: 'Marquee, Lasso, Magic Wand',
         description: 'GIMP splits Photoshop\'s selection tools into more granular options. Rectangle Select (R) and Ellipse Select (E) cover the Marquee tools. Fuzzy Select (U) replaces Magic Wand. Free Select (F) is the Lasso. Select by Color handles color-range selections.',
         concepts: ['Rectangle Select (R)', 'Ellipse Select (E)', 'Fuzzy Select (U)', 'Free Select (F)', 'Select by Color']
       },
       {
-        id: 'beginner-4',
+        id: 'beginner-4', est: '15 min',
         title: 'Layers Panel & Basic Operations',
         psEquivalent: 'PS Layers Panel',
         description: 'The Layers dialog in GIMP (Windows › Dockable Dialogs › Layers) is functionally equivalent to Photoshop\'s Layers panel. Layer ordering, visibility toggling, opacity, and blend modes all work the same. Right-click for context options.',
         concepts: ['New Layer', 'Duplicate Layer', 'Flatten Image', 'Merge Down', 'Layer Visibility', 'Layer Opacity']
       },
       {
-        id: 'beginner-5',
+        id: 'beginner-5', est: '10 min',
         title: 'File Formats: XCF vs PSD, Export As',
         psEquivalent: 'Save / Save for Web',
         description: 'GIMP\'s native format is XCF (like PSD). Critically, saving a JPEG or PNG requires File › Export As — a common source of confusion. "File › Save" only writes XCF. "File › Overwrite" re-exports to the last used export path without a dialog.',
         concepts: ['XCF (native format)', 'File › Export As', 'File › Overwrite', 'JPEG export quality', 'PNG compression']
       },
       {
-        id: 'beginner-6',
+        id: 'beginner-6', est: '15 min',
         title: 'Painting Tools: Brush, Pencil, Eraser',
         psEquivalent: 'Brush / Pencil / Eraser',
-        description: 'GIMP painting tools behave similarly to Photoshop. Paintbrush (P) gives soft anti-aliased strokes. Pencil (N) gives hard pixel-perfect edges. Brush dynamics and flow settings live in the Tool Options panel, not a separate toolbar.',
+        description: 'GIMP painting tools behave similarly to Photoshop. Paintbrush (P) gives soft anti-aliased strokes. Pencil (N) gives hard pixel-perfect edges. Brush dynamics and flow settings live in Tool Options, not a separate toolbar.',
         concepts: ['Paintbrush (P)', 'Pencil (N)', 'Eraser (Shift+E)', 'Tool Options', 'Opacity', 'Dynamics']
       },
       {
-        id: 'beginner-7',
+        id: 'beginner-7', est: '10 min',
         title: 'Color Tools: Foreground, Background & Picker',
         psEquivalent: 'PS Color Pickers / Swatches',
-        description: 'GIMP\'s foreground/background color swatches work identically to Photoshop (press X to swap, D for defaults). The Color Picker tool (O) samples canvas colors. Double-click either swatch to open the full color chooser with HTML hex input.',
+        description: 'GIMP\'s foreground/background swatches work identically to Photoshop (press X to swap, D for defaults). The Color Picker tool (O) samples canvas colors. Double-click either swatch to open the full color chooser with HTML hex input.',
         concepts: ['Foreground/Background swatches', 'Color Picker (O)', 'Swap colors (X)', 'Default colors (D)', 'HTML notation']
       },
       {
-        id: 'beginner-8',
+        id: 'beginner-8', est: '10 min',
         title: 'Undo History & Basic Shortcuts',
         psEquivalent: 'PS History Panel',
-        description: 'GIMP uses linear undo with Ctrl+Z / Ctrl+Shift+Z. The full history stack is in Edit › History. Unlike Photoshop, GIMP\'s history is not panel-based by default — but the Edit › Undo History window provides a clickable history list. Snapshots can be saved manually.',
+        description: 'GIMP uses linear undo with Ctrl+Z / Ctrl+Shift+Z. The full history stack is in Edit › Undo History. Unlike Photoshop, GIMP\'s history is not panel-based by default — but the Edit › Undo History window provides a clickable history list. Snapshots can be saved manually.',
         concepts: ['Ctrl+Z / Ctrl+Shift+Z', 'Edit › Undo History', 'Revert', 'Keyboard shortcut editor', 'Edit › Preferences › Interface']
       }
     ],
     challenges: [
       {
-        id: 'beginner-c1',
+        id: 'beginner-c1', difficulty: 'Easy', est: '45 min',
         title: 'First Composite',
-        difficulty: 'Easy',
         description: 'Combine two photos into a single composition. Import both images, place each on its own layer, resize the canvas if needed, and position elements with the Move tool. Name every layer descriptively.',
         goal: 'A 1920×1080 XCF file with at least 3 named layers, exported as PNG.'
       },
       {
-        id: 'beginner-c2',
+        id: 'beginner-c2', difficulty: 'Easy', est: '30 min',
         title: 'Selection & Cutout',
-        difficulty: 'Easy',
         description: 'Use Fuzzy Select or Free Select to cut a subject from a background and place it on a solid-color background. Practice growing and feathering the selection for a clean edge.',
         goal: 'Clean cutout with no fringing, subject on a new solid-color background layer.'
       },
       {
-        id: 'beginner-c3',
+        id: 'beginner-c3', difficulty: 'Medium', est: '20 min',
         title: 'Format Conversion Workflow',
-        difficulty: 'Medium',
         description: 'Open an existing image, make at least one edit, then export it in three formats: save the XCF as your master, export a JPEG at 80% quality for web, and export a PNG for lossless archival.',
         goal: 'Three files saved: .xcf master, .jpg web copy, .png lossless copy.'
+      },
+      {
+        id: 'beginner-c4', difficulty: 'Medium', est: '20 min',
+        title: 'Perspective Correction',
+        description: 'Correct keystoning/perspective distortion in an architectural photo using the Perspective tool (Shift+P). Drag the corner handles until vertical lines are truly vertical. Crop the blank triangular corners after transforming, then export as JPEG.',
+        goal: 'Before/after showing corrected vertical and horizontal lines. No noticeable distortion remaining.'
       }
     ]
   },
@@ -780,90 +934,112 @@ const LEARNING_PATH = [
     description: 'Layer modes, color correction, paths, and non-destructive techniques that mirror your intermediate Photoshop workflows. This is where GIMP\'s vocabulary diverges most from Photoshop\'s.',
     lessons: [
       {
-        id: 'intermediate-1',
+        id: 'intermediate-1', est: '20 min',
         title: 'Layer Blend Modes Deep Dive',
         psEquivalent: 'PS Blending Modes',
         description: 'GIMP\'s blend modes are named identically to Photoshop\'s for the most part (Multiply, Screen, Overlay, Soft Light, Hard Light, Color Dodge, Color Burn). The dropdown is in the Layers dialog. Legacy modes match older Photoshop behavior; new GEGL modes use linear light.',
         concepts: ['Multiply', 'Screen', 'Overlay', 'Soft Light', 'Hard Light', 'Color Dodge', 'Color Burn', 'Luminance']
       },
       {
-        id: 'intermediate-2',
+        id: 'intermediate-2', est: '15 min',
         title: 'Layer Groups & Organization',
         psEquivalent: 'PS Layer Groups / Folder Layers',
         description: 'Group layers with Image › Group Layers or the layers dialog button. GIMP layer groups support their own blend mode and opacity — identical to Photoshop folder layers. Color-label layers for visual organization. Groups can be nested.',
         concepts: ['Layer Groups (Ctrl+G)', 'Group blend mode', 'Group opacity', 'Color labels', 'Nested groups', 'Collapse/expand']
       },
       {
-        id: 'intermediate-3',
+        id: 'intermediate-3', est: '25 min',
         title: 'Curves & Levels Color Correction',
         psEquivalent: 'PS Curves / Levels Adjustments',
         description: 'Colors › Curves and Colors › Levels give full tonal control. GIMP\'s Curves dialog is nearly identical to Photoshop\'s — drag the diagonal line, add points, edit per-channel (R, G, B, A). Levels has a black/white/midpoint slider and auto-levels buttons.',
         concepts: ['Colors › Curves', 'Colors › Levels', 'Per-channel editing', 'Auto levels', 'Input/output ranges', 'Eyedropper sampling']
       },
       {
-        id: 'intermediate-4',
+        id: 'intermediate-4', est: '20 min',
         title: 'Hue-Saturation & Color Balance',
         psEquivalent: 'PS Hue/Saturation, Color Balance',
         description: 'Colors › Hue-Saturation lets you adjust all colors or target a specific color range (like Photoshop\'s targeted adjustment). Colors › Color Balance adjusts shadows, midtones, and highlights independently. Colors › Colorize converts to monotone.',
         concepts: ['Colors › Hue-Saturation', 'Targeted color range', 'Colors › Color Balance', 'Shadow/Midtone/Highlight sliders', 'Colorize']
       },
       {
-        id: 'intermediate-5',
+        id: 'intermediate-5', est: '30 min',
         title: 'Paths Tool & Bezier Curves',
         psEquivalent: 'PS Pen Tool',
         description: 'GIMP\'s Paths tool (B) is the direct equivalent of Photoshop\'s Pen tool. Click to add anchor points, drag to create curve handles. Paths can be stroked (Edit › Stroke Path), filled, or converted to selections (Selection › From Path). Save paths in the Paths dialog.',
         concepts: ['Paths tool (B)', 'Anchor points', 'Bezier handles', 'Edit › Stroke Path', 'Selection › From Path', 'Paths dialog']
       },
       {
-        id: 'intermediate-6',
+        id: 'intermediate-6', est: '20 min',
         title: 'Text Tool & Typography',
         psEquivalent: 'PS Type Tool',
         description: 'The Text tool (T) creates a dedicated text layer. The on-canvas editor supports kerning, leading, and alignment. After deselecting, text remains editable — double-click to re-enter edit mode. For warped/transformed text, flatten the text layer first (right-click › Flatten).',
         concepts: ['Text tool (T)', 'Text layer', 'Font chooser', 'Kerning / Leading', 'Alignment', 'Flatten text layer']
       },
       {
-        id: 'intermediate-7',
+        id: 'intermediate-7', est: '20 min',
         title: 'Filters & Filter Gallery',
         psEquivalent: 'PS Filter Gallery',
         description: 'GIMP\'s Filters menu organizes effects by category: Blur, Sharpen, Distorts, Light and Shadow, Artistic. Most filters open a live preview dialog. Re-apply the last filter with Filters › Repeat Last. Script-Fu Console lets you chain filter calls programmatically.',
         concepts: ['Filters › Blur › Gaussian Blur', 'Filters › Enhance › Unsharp Mask', 'Filters › Distorts', 'Filters › Repeat Last', 'Live preview dialog']
       },
       {
-        id: 'intermediate-8',
+        id: 'intermediate-8', est: '25 min',
         title: 'Channels & Layer Masks',
         psEquivalent: 'PS Channels Panel / Layer Masks',
-        description: 'GIMP manages transparency via the alpha channel on each layer (Image › Flatten removes alpha). Layer Masks work identically to Photoshop — add via Layers panel right-click › Add Layer Mask. The Channels dialog (Windows › Dockable Dialogs › Channels) shows R/G/B/A channels and allows channel-to-selection operations.',
+        description: 'GIMP manages transparency via the alpha channel on each layer (Image › Flatten removes alpha). Layer Masks work identically to Photoshop — add via Layers panel right-click › Add Layer Mask. The Channels dialog shows R/G/B/A channels and allows channel-to-selection operations.',
         concepts: ['Add Alpha Channel', 'Layer Mask (Add/Apply/Delete)', 'Channels dialog', 'Channel to Selection', 'Mask editing mode']
+      },
+      {
+        id: 'intermediate-9', est: '30 min',
+        title: 'Raw Photo Editing: darktable / RawTherapee → GIMP',
+        psEquivalent: 'Adobe Camera Raw / Lightroom',
+        description: 'GIMP has no native RAW support. The standard open-source workflow: use darktable or RawTherapee (both free) for RAW development — apply exposure, white balance, and noise reduction there — then export a 16-bit TIFF into GIMP for compositing and retouching. Color profile handoff (sRGB vs AdobeRGB) is the key technical detail to get right.',
+        concepts: ['darktable', 'RawTherapee', 'Export 16-bit TIFF from RAW', 'Color profile handoff', 'GIMP as final compositing stage']
+      },
+      {
+        id: 'intermediate-10', est: '20 min',
+        title: 'Vector Workflow: When to Use Inkscape',
+        psEquivalent: 'PS + Illustrator combined workflow',
+        description: 'GIMP is a raster editor only. For logos, icons, and scalable graphics, Inkscape (the free Illustrator equivalent) handles vectors. Import SVG into GIMP via File › Open — it rasterizes at the current canvas DPI. Round-trip workflow: design paths in Inkscape, import rasterized result into GIMP for compositing.',
+        concepts: ['GIMP vs Inkscape use cases', 'Import SVG (rasterizes at DPI)', 'Inkscape for paths/logos', 'Round-trip workflow', '.svg import settings']
       }
     ],
     challenges: [
       {
-        id: 'intermediate-c1',
+        id: 'intermediate-c1', difficulty: 'Medium', est: '1 hr',
         title: 'Cinematic Color Grade',
-        difficulty: 'Medium',
-        description: 'Apply a cinematic color look to a photograph using only Curves and Hue-Saturation. Lift the black point, crush saturation in shadows, add warmth to highlights, and introduce a complementary color in the shadows (e.g. teal shadows + orange highlights).',
+        description: 'Apply a cinematic color look to a photograph using only Curves and Hue-Saturation. Lift the black point, crush saturation in shadows, add warmth to highlights, and introduce a complementary color split (e.g. teal shadows + orange highlights).',
         goal: 'Before/after comparison showing a clear, intentional cinematic color grading effect.'
       },
       {
-        id: 'intermediate-c2',
+        id: 'intermediate-c2', difficulty: 'Medium', est: '1–2 hrs',
         title: 'Text Poster Design',
-        difficulty: 'Medium',
         description: 'Create a movie-poster-style typographic composition. Use layer groups to organize foreground/background/text elements. Apply at least two different blend modes and two distinct text treatments (e.g. large display headline + fine-print tagline).',
         goal: 'Single XCF with organized layer groups, exported as a 1080×1620 PNG.'
       },
       {
-        id: 'intermediate-c3',
+        id: 'intermediate-c3', difficulty: 'Hard', est: '1–2 hrs',
         title: 'Smooth Path Cutout',
-        difficulty: 'Hard',
         description: 'Use the Paths tool (not any automatic selection) to carefully trace and cut out a complex object — a glass, product shot, or architectural detail. Achieve cleaner edges than any magic wand or color-range tool could provide.',
         goal: 'Exported PNG with transparent background. The path must be saved in the XCF.'
       },
       {
-        id: 'intermediate-c4',
+        id: 'intermediate-c4', difficulty: 'Medium', est: '45 min',
         title: 'Multi-Image Blending',
-        difficulty: 'Medium',
         description: 'Blend two exposures (or two different textures/backgrounds) using layer masks and gradient masks to create a seamless transition. No hard edges visible at the blend boundary.',
         goal: 'Seamless blend with gradient mask applied, no visible hard edge, exported as PNG.'
+      },
+      {
+        id: 'intermediate-c5', difficulty: 'Medium', est: '45 min',
+        title: 'Double Exposure Effect',
+        description: 'Create a double exposure by combining two images — a portrait and a landscape, or two portraits — using Screen blend mode. Adjust per-layer contrast (Curves) so both images contribute clearly to the blend. Add a solid-color background layer for the final look.',
+        goal: 'Double exposure composite, both subjects clearly readable at 50% zoom, exported as PNG.'
+      },
+      {
+        id: 'intermediate-c6', difficulty: 'Medium', est: '1 hr',
+        title: 'GIF Animation',
+        description: 'Create a 5-frame looping GIF animation in GIMP using the frame-as-layer system. Each layer = one frame. Encode the frame delay in the layer name, e.g. "Frame 1 (100ms)". Preview with Filters › Animation › Playback, then export via File › Export As .gif with looping enabled.',
+        goal: 'Working animated .gif file, 5+ frames, smooth loop, file size under 2 MB.'
       }
     ]
   },
@@ -874,90 +1050,106 @@ const LEARNING_PATH = [
     description: 'Automation, batch processing, GEGL color science, and plugin workflows. This section covers territory that goes beyond Photoshop in some areas — particularly scripting and open color science.',
     lessons: [
       {
-        id: 'advanced-1',
+        id: 'advanced-1', est: '30 min',
         title: 'Script-Fu Basics',
         psEquivalent: 'PS Actions / Basic Scripting',
         description: 'Script-Fu is GIMP\'s built-in Scheme-based scripting language. The Script-Fu Console (Filters › Script-Fu › Console) allows live execution. Every GIMP operation has a Script-Fu binding — use the console to record and test operations before saving as a script.',
         concepts: ['Filters › Script-Fu › Console', 'gimp-file-load', 'gimp-image-flatten', 'car / cdr / let*', 'Basic Scheme syntax']
       },
       {
-        id: 'advanced-2',
+        id: 'advanced-2', est: '30 min',
         title: 'Batch Processing with Script-Fu',
         psEquivalent: 'PS Batch / File › Automate',
         description: 'Automate repetitive tasks across multiple files using Script-Fu. Write a loop that opens files from a directory, applies operations, saves, and closes. The Script-Fu Server mode allows external triggering. BIMP plugin provides a GUI for basic batch operations.',
         concepts: ['let* loop over file list', 'gimp-file-load', 'file-png-save', 'cadr / list operations', 'BIMP plugin']
       },
       {
-        id: 'advanced-3',
+        id: 'advanced-3', est: '25 min',
         title: 'GEGL Operations & Linear Light',
         psEquivalent: '32-bit / ProPhoto Workflow',
-        description: 'GEGL (Generic Graphics Library) is GIMP\'s compositing engine. Linear light blending produces more physically accurate results for certain operations (glows, exposures, blur). Switch to 32-bit float precision in Image › Precision for linear light workflows.',
+        description: 'GEGL (Generic Graphics Library) is GIMP\'s compositing engine. Linear light blending produces more physically accurate results for glows, exposures, and blur. Switch to 32-bit float precision via Image › Precision for linear light workflows.',
         concepts: ['Image › Precision › 32-bit float', 'Linear Light blend mode', 'GEGL Operations (Filters › GEGL Operations)', 'Colors › Exposure', 'Gamma vs Linear']
       },
       {
-        id: 'advanced-4',
+        id: 'advanced-4', est: '25 min',
         title: 'Python-Fu Plugin Basics',
         psEquivalent: 'PS ExtendScript / UXP',
         description: 'Python-Fu provides a Python interface to GIMP\'s PDB (Procedure Database). Access it via Filters › Script-Fu › Python-Fu Console. Python is more readable than Scheme for complex logic. GIMP 3.x uses Python 3; GIMP 2.x uses Python 2.',
         concepts: ['Filters › Python-Fu › Console', 'pdb.gimp_file_load()', 'gimp.image_list()', 'Python 3 (GIMP 3.x)', 'pdb.plug_in_unsharp_mask()']
       },
       {
-        id: 'advanced-5',
+        id: 'advanced-5', est: '20 min',
         title: 'Plugin Management & Installation',
         psEquivalent: 'PS Plugin Manager / Extension Manager',
         description: 'Install third-party GIMP plugins by placing them in the plug-ins directory (Edit › Preferences › Folders › Plug-ins). Essential plugins: G\'MIC (hundreds of effects), Resynthesizer (Content-Aware Fill equivalent), BIMP (batch image processor).',
         concepts: ['~/.config/GIMP/2.10/plug-ins/', 'G\'MIC (Filters › G\'MIC-Qt)', 'Resynthesizer / Heal Selection', 'BIMP batch processor', 'Plugin Manager (GIMP 3)']
       },
       {
-        id: 'advanced-6',
+        id: 'advanced-6', est: '20 min',
         title: 'QuickMask & Advanced Selection Refinement',
         psEquivalent: 'PS Select & Mask / Refine Edge',
         description: 'QuickMask mode (press Q) paints a red overlay representing your selection — paint with black to remove, white to add. Grow, Feather, Shrink, and Border operations (Select menu) refine selections precisely. Combine QuickMask with the Paintbrush for hair/fur edge work.',
         concepts: ['QuickMask (Q)', 'Paint selection with brushes', 'Select › Grow/Shrink/Feather', 'Select › Border', 'Select › Invert (Ctrl+I)']
       },
       {
-        id: 'advanced-7',
+        id: 'advanced-7', est: '25 min',
         title: 'Advanced Color Grading with GEGL',
         psEquivalent: 'PS Camera Raw / Lightroom',
         description: 'Use GEGL-based tools for high-quality color grading: Colors › Exposure for non-destructive exposure adjustment, Colors › Shadows-Highlights for tonal range control, and GEGL Operations › hue-chroma for perceptually uniform hue/saturation adjustments.',
         concepts: ['Colors › Exposure', 'Colors › Shadows-Highlights', 'GEGL › hue-chroma', 'Colors › Levels (with gamma)', 'Linear light workflow']
       },
       {
-        id: 'advanced-8',
+        id: 'advanced-8', est: '20 min',
         title: 'Smart Filters Equivalent: Non-Destructive Workflow',
         psEquivalent: 'PS Smart Objects / Smart Filters',
         description: 'GIMP 2.x lacks true non-destructive Smart Filters. The professional workaround: always duplicate the layer before applying a destructive filter (Ctrl+Shift+D), use layer groups to contain filtered versions, and use layer masks to control effect visibility. GIMP 3.x adds GEGL operation stacks as live effects.',
         concepts: ['Duplicate Layer (Ctrl+Shift+D)', 'Layer Group containment', 'Layer Mask on filtered layer', 'GIMP 3 live effects (GEGL stack)', 'Edit › Fade (gamma-based)']
+      },
+      {
+        id: 'advanced-9', est: '25 min',
+        title: 'GIMP 3.x Live Effects & Non-Destructive Pipeline',
+        psEquivalent: 'PS Smart Filters (per-layer)',
+        description: 'GIMP 3.0\'s key new workflow feature: non-destructive GEGL operation stacks per layer. Apply Gaussian Blur, Curves, or any GEGL operation as a live effect that can be re-edited or removed at any time. Effects are stored in the XCF but lost on flatten. This fundamentally replaces the duplicate-before-filter workaround of GIMP 2.x.',
+        concepts: ['Layer Effects panel (GIMP 3)', 'Add GEGL op as live effect', 'Re-edit / remove effects', 'Effect order in stack', 'Saved in XCF, lost on flatten']
+      },
+      {
+        id: 'advanced-10', est: '30 min',
+        title: 'Content-Aware Move Equivalent',
+        psEquivalent: 'PS Content-Aware Move Tool',
+        description: 'GIMP has no direct Content-Aware Move tool. The manual workflow: (1) select the object with any selection tool, (2) copy it to a new layer (Edit › Copy › Paste as New Layer), (3) use Resynthesizer\'s Heal Selection on the original layer to fill the empty hole, (4) move the copy to its new position, (5) blend its edges with a feathered layer mask.',
+        concepts: ['Copy to New Layer (Ctrl+Shift+V)', 'Resynthesizer: Script-Fu › Heal Selection', 'Fill source hole', 'Move copy to destination', 'Feathered mask for blending edges']
       }
     ],
     challenges: [
       {
-        id: 'advanced-c1',
+        id: 'advanced-c1', difficulty: 'Hard', est: '1–2 hrs',
         title: 'Batch Resize Script',
-        difficulty: 'Hard',
         description: 'Write a Script-Fu script that loads every JPEG from a specified input folder, scales each image to 50% of its original dimensions, and saves the result to an "output" subfolder. Run it on a test folder with at least 5 images.',
         goal: 'A working .scm script file. All 5 test images processed and present in the output folder.'
       },
       {
-        id: 'advanced-c2',
+        id: 'advanced-c2', difficulty: 'Hard', est: '1 hr',
         title: 'Content-Aware Fill with Resynthesizer',
-        difficulty: 'Hard',
         description: 'Install the Resynthesizer plugin. Select a prominent object in a photograph (a sign, a person, a power line), then use Script-Fu › Heal Selection to seamlessly remove it. The result should show no ghosting or visible artifacts.',
         goal: 'Before/after showing clean object removal. No obvious artifacts in the healed area.'
       },
       {
-        id: 'advanced-c3',
+        id: 'advanced-c3', difficulty: 'Hard', est: '1 hr',
         title: 'Linear Light Composite',
-        difficulty: 'Hard',
         description: 'Create a light-ray or bloom/glow effect using GEGL Linear Light blend mode. Demonstrate that the same composite looks incorrect (too dark or too bright) when using standard gamma blending, versus physically correct under Linear Light.',
         goal: 'Side-by-side exported comparison: gamma blending vs. linear light blending of the same composite.'
       },
       {
-        id: 'advanced-c4',
+        id: 'advanced-c4', difficulty: 'Hard', est: '1–2 hrs',
         title: 'Python-Fu Watermark Automation',
-        difficulty: 'Hard',
         description: 'Write a Python-Fu script that adds a semi-transparent copyright watermark text layer (positioned bottom-right, 10% opacity) to every image in a directory. The text should include the filename and current year.',
         goal: 'Working Python script demonstrated on a test folder. Watermark visible but not obtrusive.'
+      },
+      {
+        id: 'advanced-c5', difficulty: 'Hard', est: '1–2 hrs',
+        title: 'Recreate a PS Action as Script-Fu',
+        description: 'Take a multi-step Photoshop action you used to rely on — for example: apply vignette + Levels adjustment + unsharp mask — and recreate it as a .scm Script-Fu script. The script should run the same pipeline on any open image from the Script-Fu console with a single command.',
+        goal: 'A working .scm file. Running it in the Script-Fu console produces the same visual result as the original PS action.'
       }
     ]
   },
@@ -968,56 +1160,56 @@ const LEARNING_PATH = [
     description: 'Professional production workflows, color management, custom resource creation, and complex compositing. These techniques represent the ceiling of GIMP capability and map to the most advanced Photoshop workflows.',
     lessons: [
       {
-        id: 'expert-1',
+        id: 'expert-1', est: '35 min',
         title: 'ICC Color Management & Soft Proofing',
         psEquivalent: 'PS Color Settings / Proof Colors',
         description: 'Configure GIMP\'s color management under Edit › Color Management. Assign or convert ICC profiles with Image › Mode › Convert to Color Profile. Soft proof for print with View › Proof Colors — select a CMYK profile to simulate print gamut on screen.',
         concepts: ['Edit › Color Management', 'Assign / Convert ICC Profile', 'sRGB vs Adobe RGB vs ProPhoto', 'View › Proof Colors', 'Rendering Intent (Perceptual / Relative Colorimetric)']
       },
       {
-        id: 'expert-2',
+        id: 'expert-2', est: '30 min',
         title: 'Custom Brush Creation',
         psEquivalent: 'PS Brush Presets / Define Brush',
         description: 'Create custom brushes from any grayscale image: Script-Fu defines it or use Brushes dialog. Static brushes are .gbr files; animated (multi-stroke) brushes use multiple layers and save as .gih. Control spacing, angle jitter, and size dynamics in Tool Options.',
         concepts: ['.gbr static brush format', '.gih animated brush format', 'Brushes dialog › Paste as Brush', 'Brush spacing & dynamics', 'Brush Pack folder (~/.config/GIMP/2.10/brushes/)']
       },
       {
-        id: 'expert-3',
+        id: 'expert-3', est: '25 min',
         title: 'Custom Patterns & Seamless Tiles',
         psEquivalent: 'PS Pattern Overlay / Define Pattern',
-        description: 'Create a seamless tile from any image using Filters › Map › Tile (or Script-Fu to define pattern). Manage patterns in the Patterns dialog. Use Edit › Fill with Pattern for pattern fills. Filters › Map › Tileable Blur helps disguise seams for seamless textures.',
+        description: 'Create a seamless tile from any image using Filters › Map › Tile (or Script-Fu to define a pattern). Manage patterns in the Patterns dialog. Use Edit › Fill with Pattern for pattern fills. Filters › Map › Tileable Blur helps disguise seams for seamless textures.',
         concepts: ['Patterns dialog', 'Edit › Fill with Pattern', 'Script-Fu: gimp-pattern-get-pixels', 'Filters › Map › Tileable Blur', '.pat format']
       },
       {
-        id: 'expert-4',
+        id: 'expert-4', est: '30 min',
         title: 'GIMP 3.x Architecture & New Features',
         psEquivalent: 'PS CC Update Cycles',
         description: 'GIMP 3.0 introduces a GTK4 UI, GEGL-based layer modes everywhere, a proper non-destructive effects stack (GEGL operations as live, re-editable effects on layers), Python 3 plugins, and an updated API. Understanding the architecture change is critical for writing future-proof scripts.',
         concepts: ['GTK4 UI', 'Non-destructive GEGL effects stack', 'Python 3 plugin API', 'GEGL layer modes in all bit depths', 'GIMP 3 PDB changes']
       },
       {
-        id: 'expert-5',
+        id: 'expert-5', est: '40 min',
         title: 'Luminosity Masking & Complex Compositing',
         psEquivalent: 'PS Advanced Compositing / Luminosity Masks',
         description: 'Luminosity masks select pixels based on their brightness — bright luminosity masks protect highlights; dark masks protect shadows. Create them via the Channels dialog: copy the Value channel, use Curves to restrict the range, then load as selection. Essential for sky replacement and exposure blending.',
         concepts: ['Channels dialog → Value channel', 'Curves to shape luminosity mask', 'Load channel as selection', 'Blend exposures with luminosity mask', 'Refine mask with Curves/Levels']
       },
       {
-        id: 'expert-6',
+        id: 'expert-6', est: '35 min',
         title: 'Frequency Separation Retouching',
         psEquivalent: 'PS Frequency Separation Action',
-        description: 'Separate an image into texture (high frequency) and color/tone (low frequency) layers. Low frequency: duplicate layer → apply Gaussian Blur (radius ~6–10px). High frequency: duplicate original → Image › Mode › Grain Extract from the blurred layer. Edit each independently without disturbing the other.',
+        description: 'Separate an image into texture (high frequency) and color/tone (low frequency) layers. Low frequency: duplicate layer → apply Gaussian Blur (radius ~6–10px). High frequency: duplicate original → Filters › Enhance › Grain Extract from the blurred layer. Edit each independently without disturbing the other.',
         concepts: ['Gaussian Blur (low-freq layer)', 'Filters › Enhance › Grain Extract', 'High/Low frequency layers', 'Heal tool on texture layer', 'Clone tool on tone layer']
       },
       {
-        id: 'expert-7',
+        id: 'expert-7', est: '40 min',
         title: 'HDR & Tone Mapping',
         psEquivalent: 'PS HDR Pro / Merge to HDR Pro',
         description: 'Merge bracketed exposures in GIMP by aligning and blending them manually via luminosity masks or exposure masks. Apply tone mapping with Colors › Exposure + Colors › Curves on a 32-bit float image. GIMP 3.x adds improved HDR display and GEGL tone mapping operators (Mantiuk, Reinhard).',
         concepts: ['32-bit float precision', 'Manual exposure blending via masks', 'Colors › Exposure', 'GEGL tone-mapping operators', 'Export 16-bit TIFF for print']
       },
       {
-        id: 'expert-8',
+        id: 'expert-8', est: '30 min',
         title: 'Production-Ready Export Workflows',
         psEquivalent: 'PS Export As / Save for Web',
         description: 'Professional multi-format export: web-optimized JPEG (strip metadata, sRGB, progressive), lossless PNG with ICC profile, print-ready TIFF (embedded CMYK profile, 16-bit), and layered PDF. Automate with Script-Fu or Python-Fu for consistent results across a project.',
@@ -1026,30 +1218,26 @@ const LEARNING_PATH = [
     ],
     challenges: [
       {
-        id: 'expert-c1',
+        id: 'expert-c1', difficulty: 'Expert', est: '2–3 hrs',
         title: 'Print-Ready CMYK Workflow',
-        difficulty: 'Expert',
         description: 'Set up a SWOP Coated v2 soft-proof profile in GIMP. Enable Proof Colors and identify out-of-gamut areas. Make selective color corrections using Hue-Saturation and Curves to bring the image into gamut. Export a print-ready TIFF with embedded ICC profile.',
         goal: 'TIFF file with embedded ICC profile. Document the corrections made to address out-of-gamut areas.'
       },
       {
-        id: 'expert-c2',
+        id: 'expert-c2', difficulty: 'Expert', est: '2 hrs',
         title: 'Professional Skin Retouch',
-        difficulty: 'Expert',
         description: 'Apply frequency separation retouching to a portrait. On the high-frequency texture layer, use the Heal tool to remove individual blemishes without affecting skin tone. On the low-frequency tone layer, use a large soft brush at 5–10% opacity to smooth uneven tones.',
         goal: 'Before/after showing retained skin texture with smoothed underlying tone. No plastic/smoothed-out look.'
       },
       {
-        id: 'expert-c3',
+        id: 'expert-c3', difficulty: 'Expert', est: '3–4 hrs',
         title: 'Full Production Composite',
-        difficulty: 'Expert',
-        description: 'Create a complex composite using 5 or more source images. Techniques required: luminosity masking for a sky replacement, frequency separation on skin, dodge-and-burn on separate neutral gray layers, and a full color grade chain at the end.',
+        description: 'Create a complex composite using 5 or more source images. Required techniques: luminosity masking for a sky replacement, frequency separation on skin, dodge-and-burn on separate neutral gray layers, and a full color grade chain at the end.',
         goal: 'Fully organized XCF with named layer groups for each technique. Print-resolution PNG export (min 3000px wide).'
       },
       {
-        id: 'expert-c4',
+        id: 'expert-c4', difficulty: 'Expert', est: '3–4 hrs',
         title: 'Distributable Plugin Package',
-        difficulty: 'Expert',
         description: 'Write a complete GIMP plugin in Python-Fu or Script-Fu with a UI dialog (at least 2 configurable parameters). Register it under Filters › Your Name › Plugin Name. Package it with a README describing installation and usage.',
         goal: 'Installable plugin folder. Plugin appears in Filters menu, dialog works correctly, README complete.'
       }
@@ -1057,32 +1245,41 @@ const LEARNING_PATH = [
   }
 ];
 
-/* ── State ───────────────────────────────────────────────────── */
-const STORAGE_KEY = 'gimp-lp-v1';
-let state = { version: 1, lessons: {}, challenges: {} };
+'use strict';
+
+const STORAGE_KEY = 'gimp-lp-v2';
+let state = null;
+let currentFilter = 'all';
+let focusedCardId = null;
+let scrollObserver = null;
+let searchQuery = '';
+
+// ─── State ────────────────────────────────────────────────────────────────────
 
 function defaultState() {
-  const s = { version: 1, lessons: {}, challenges: {} };
+  const s = { version: 2, lessons: {}, challenges: {}, notes: {}, theme: 'dark' };
   LEARNING_PATH.forEach(section => {
     section.lessons.forEach(l => { s.lessons[l.id] = false; });
-    section.challenges.forEach(c => { s.challenges[c.id] = false; });
+    section.challenges.forEach(c => { s.challenges[c.id] = false; s.notes[c.id] = ''; });
   });
   return s;
 }
 
 function loadState() {
-  const def = defaultState();
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      state.lessons    = Object.assign({}, def.lessons,    parsed.lessons    || {});
-      state.challenges = Object.assign({}, def.challenges, parsed.challenges || {});
-    } else {
-      state = def;
-    }
+    if (!raw) return defaultState();
+    const parsed = JSON.parse(raw);
+    const def = defaultState();
+    return {
+      version: 2,
+      theme: parsed.theme || def.theme,
+      lessons:    Object.assign({}, def.lessons,    parsed.lessons    || {}),
+      challenges: Object.assign({}, def.challenges, parsed.challenges || {}),
+      notes:      Object.assign({}, def.notes,      parsed.notes      || {})
+    };
   } catch (e) {
-    state = def;
+    return defaultState();
   }
 }
 
@@ -1090,285 +1287,511 @@ function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
-/* ── Stats ───────────────────────────────────────────────────── */
-function getLessonStats() {
-  const total = Object.keys(state.lessons).length;
-  const done  = Object.values(state.lessons).filter(Boolean).length;
-  return { done, total, pct: total ? Math.round(done / total * 100) : 0 };
+// ─── Theme ────────────────────────────────────────────────────────────────────
+
+function applyTheme(theme) {
+  if (theme === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.getElementById('theme-btn').textContent = '🌙';
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+    document.getElementById('theme-btn').textContent = '☀';
+  }
 }
 
-function getChallengeStats() {
-  const total = Object.keys(state.challenges).length;
-  const done  = Object.values(state.challenges).filter(Boolean).length;
-  return { done, total, pct: total ? Math.round(done / total * 100) : 0 };
+function handleThemeToggle() {
+  state.theme = state.theme === 'dark' ? 'light' : 'dark';
+  applyTheme(state.theme);
+  saveState();
 }
 
-function getSectionLessonStats(sectionId) {
-  const section = LEARNING_PATH.find(s => s.id === sectionId);
-  if (!section) return { done: 0, total: 0 };
-  const total = section.lessons.length;
-  const done  = section.lessons.filter(l => state.lessons[l.id]).length;
-  return { done, total };
+// ─── URL Hash Sharing ─────────────────────────────────────────────────────────
+
+function encodeStateToHash() {
+  const compact = {
+    l: Object.keys(state.lessons).filter(id => state.lessons[id]),
+    c: Object.keys(state.challenges).filter(id => state.challenges[id])
+  };
+  return '#' + btoa(JSON.stringify(compact));
 }
 
-function getSectionChallengeStats(sectionId) {
-  const section = LEARNING_PATH.find(s => s.id === sectionId);
-  if (!section) return { done: 0, total: 0 };
-  const total = section.challenges.length;
-  const done  = section.challenges.filter(c => state.challenges[c.id]).length;
-  return { done, total };
+function decodeStateFromHash() {
+  try {
+    const hash = window.location.hash.slice(1);
+    if (!hash) return null;
+    const compact = JSON.parse(atob(hash));
+    const s = defaultState();
+    if (compact.l) compact.l.forEach(id => { if (id in s.lessons)    s.lessons[id]    = true; });
+    if (compact.c) compact.c.forEach(id => { if (id in s.challenges) s.challenges[id] = true; });
+    return s;
+  } catch (e) {
+    return null;
+  }
 }
 
-/* ── Rendering ───────────────────────────────────────────────── */
+function handleShareClick() {
+  const url = window.location.href.split('#')[0] + encodeStateToHash();
+  const fallback = () => showToast('Share URL: ' + url, 'info');
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(
+        () => showToast('Link copied to clipboard!', 'info'),
+        fallback
+      );
+    } else {
+      fallback();
+    }
+  } catch (e) {
+    fallback();
+  }
+}
+
+// ─── Progress Bars ────────────────────────────────────────────────────────────
+
 function renderProgressBars() {
-  const ls = getLessonStats();
-  const cs = getChallengeStats();
+  let totalL = 0, doneL = 0, totalC = 0, doneC = 0;
+  LEARNING_PATH.forEach(s => {
+    s.lessons.forEach(l => { totalL++; if (state.lessons[l.id]) doneL++; });
+    s.challenges.forEach(c => { totalC++; if (state.challenges[c.id]) doneC++; });
+  });
+  const lp = totalL ? Math.round(doneL / totalL * 100) : 0;
+  const cp = totalC ? Math.round(doneC / totalC * 100) : 0;
+  document.getElementById('lesson-count').textContent    = `${doneL} / ${totalL} (${lp}%)`;
+  document.getElementById('lesson-bar').style.width      = lp + '%';
+  document.getElementById('challenge-count').textContent = `${doneC} / ${totalC} (${cp}%)`;
+  document.getElementById('challenge-bar').style.width   = cp + '%';
+}
 
-  document.getElementById('lesson-bar').style.width   = ls.pct + '%';
-  document.getElementById('challenge-bar').style.width = cs.pct + '%';
-  document.getElementById('lesson-count').textContent   = `${ls.done} / ${ls.total} (${ls.pct}%)`;
-  document.getElementById('challenge-count').textContent = `${cs.done} / ${cs.total} (${cs.pct}%)`;
+// ─── Sidebar ──────────────────────────────────────────────────────────────────
 
-  const allDone = ls.done === ls.total && cs.done === cs.total && ls.total > 0;
-  const banner = document.getElementById('completion-banner');
-  if (banner) banner.classList.toggle('visible', allDone);
+const RING_C = 50.27; // 2π × 8
+
+function sectionProgress(section) {
+  const items = section.lessons.length + section.challenges.length;
+  if (!items) return 0;
+  const done = section.lessons.filter(l => state.lessons[l.id]).length
+             + section.challenges.filter(c => state.challenges[c.id]).length;
+  return done / items;
 }
 
 function renderSidebar() {
-  const sidebar = document.getElementById('sidebar');
-  let html = '<div class="sidebar-label">Sections</div>';
-
-  LEARNING_PATH.forEach((section, i) => {
-    const ls = getSectionLessonStats(section.id);
-    const cs = getSectionChallengeStats(section.id);
-    html += `
-      <a class="nav-item${i === 0 ? ' active' : ''}" data-level="${section.level}"
-         href="#section-${section.id}" data-section="${section.id}"
-         onclick="handleNavClick(event, '${section.id}')">
-        <div class="nav-dot"></div>
-        <span class="nav-text">${section.title}</span>
-        <span class="nav-count" id="nav-count-${section.id}">${ls.done + cs.done}/${ls.total + cs.total}</span>
-      </a>`;
-  });
-
-  html += '<div class="sidebar-divider"></div>';
-  html += '<div class="sidebar-stats">';
-  const ls = getLessonStats();
-  const cs = getChallengeStats();
-  html += `
-    <div class="sidebar-stat">
-      <span class="sidebar-stat-label">Lessons</span>
-      <span class="sidebar-stat-value" id="sidebar-lesson-count">${ls.done} / ${ls.total}</span>
-    </div>
-    <div class="sidebar-stat">
-      <span class="sidebar-stat-label">Challenges</span>
-      <span class="sidebar-stat-value" id="sidebar-challenge-count">${cs.done} / ${cs.total}</span>
-    </div>`;
-  html += '</div>';
-  sidebar.innerHTML = html;
+  document.getElementById('sidebar').innerHTML = LEARNING_PATH.map(section => {
+    const pct    = sectionProgress(section) * 100;
+    const offset = (RING_C * (1 - pct / 100)).toFixed(2);
+    return `<a class="nav-item" href="#section-${section.id}"
+   data-section="${section.id}" data-level="${section.level}">
+  <svg width="22" height="22" class="progress-ring" viewBox="0 0 22 22">
+    <circle cx="11" cy="11" r="8" fill="none" stroke="var(--border)" stroke-width="2.5"/>
+    <circle cx="11" cy="11" r="8" fill="none" stroke="var(--${section.level})" stroke-width="2.5"
+            stroke-dasharray="${RING_C}" stroke-dashoffset="${offset}"
+            stroke-linecap="round" transform="rotate(-90 11 11)"
+            id="ring-fill-${section.id}"/>
+  </svg>
+  <span class="nav-text">${section.title}</span>
+</a>`;
+  }).join('');
 }
 
-function difficultyClass(d) {
-  const map = { 'Easy': 'easy', 'Medium': 'medium', 'Hard': 'hard', 'Expert': 'expert' };
-  return map[d] || 'medium';
+function updateRing(sectionId) {
+  const section = LEARNING_PATH.find(s => s.id === sectionId);
+  const ring    = document.getElementById('ring-fill-' + sectionId);
+  if (!section || !ring) return;
+  const pct = sectionProgress(section) * 100;
+  ring.setAttribute('stroke-dashoffset', (RING_C * (1 - pct / 100)).toFixed(2));
 }
 
-function escapeHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function updateSidebarActive(sectionId) {
+  document.querySelectorAll('.nav-item').forEach(a =>
+    a.classList.toggle('active', a.dataset.section === sectionId)
+  );
+}
+
+// ─── Cards ────────────────────────────────────────────────────────────────────
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 function renderLessonCard(lesson, sectionId) {
   const done = !!state.lessons[lesson.id];
-  const checkmark = done ? '✓' : '';
-  const doneClass = done ? ' completed' : '';
-  const psTag = lesson.psEquivalent
-    ? `<span class="ps-callout"><span class="ps-callout-prefix">↔</span>${escapeHtml(lesson.psEquivalent)}</span>`
-    : '';
-  const chips = lesson.concepts.map(c => `<span class="concept-chip">${escapeHtml(c)}</span>`).join('');
-
-  return `
-    <div class="lesson-card${doneClass}" id="card-${lesson.id}"
-         onclick="handleLessonToggle('${lesson.id}', '${sectionId}')">
-      <div class="lesson-checkbox" id="check-${lesson.id}">${checkmark}</div>
-      <div class="lesson-body">
-        <div class="lesson-title-row">
-          <span class="lesson-title" id="title-${lesson.id}">${escapeHtml(lesson.title)}</span>
-          ${psTag}
-        </div>
-        <div class="lesson-desc">${escapeHtml(lesson.description)}</div>
-        <div class="concept-chips">${chips}</div>
-      </div>
-    </div>`;
+  return `<div class="lesson-card${done ? ' completed' : ''}" id="card-${lesson.id}"
+     tabindex="0"
+     onclick="handleLessonToggle('${lesson.id}','${sectionId}')"
+     onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();handleLessonToggle('${lesson.id}','${sectionId}');}">
+  <div class="lesson-checkbox">${done ? '✓' : ''}</div>
+  <div class="lesson-body">
+    <div class="lesson-title-row">
+      <span class="lesson-title">${lesson.title}</span>
+      ${lesson.est ? `<span class="est-badge">⏱ ${lesson.est}</span>` : ''}
+    </div>
+    <div class="ps-callout"><span class="ps-callout-prefix">↔</span> ${lesson.psEquivalent}</div>
+    <p class="lesson-desc">${lesson.description}</p>
+    <div class="concept-chips">${lesson.concepts.map(c => `<span class="concept-chip">${c}</span>`).join('')}</div>
+  </div>
+</div>`;
 }
 
 function renderChallengeCard(challenge, sectionId) {
   const done = !!state.challenges[challenge.id];
-  const checkmark = done ? '✓' : '';
-  const doneClass = done ? ' completed' : '';
-  const dc = difficultyClass(challenge.difficulty);
-
-  return `
-    <div class="challenge-card${doneClass}" id="card-${challenge.id}"
-         onclick="handleChallengeToggle('${challenge.id}', '${sectionId}')">
-      <div class="challenge-checkbox" id="check-${challenge.id}">${checkmark}</div>
-      <div class="challenge-body">
-        <div class="challenge-title-row">
-          <span class="challenge-title" id="title-${challenge.id}">${escapeHtml(challenge.title)}</span>
-          <span class="difficulty-badge ${dc}">${escapeHtml(challenge.difficulty)}</span>
-        </div>
-        <div class="challenge-desc">${escapeHtml(challenge.description)}</div>
-        <div class="challenge-goal"><strong>Goal:</strong> ${escapeHtml(challenge.goal)}</div>
-      </div>
-    </div>`;
+  const note = state.notes[challenge.id] || '';
+  const diff = challenge.difficulty ? challenge.difficulty.toLowerCase() : '';
+  return `<div class="challenge-card${done ? ' completed' : ''}" id="card-${challenge.id}"
+     tabindex="0"
+     onclick="handleChallengeToggle('${challenge.id}','${sectionId}',event)"
+     onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();handleChallengeToggle('${challenge.id}','${sectionId}',event);}">
+  <div class="challenge-checkbox">${done ? '✓' : ''}</div>
+  <div class="challenge-body">
+    <div class="challenge-title-row">
+      <span class="challenge-title">${challenge.title}</span>
+      ${challenge.difficulty ? `<span class="difficulty-badge ${diff}">${challenge.difficulty}</span>` : ''}
+      ${challenge.est ? `<span class="est-badge">⏱ ${challenge.est}</span>` : ''}
+    </div>
+    <p class="challenge-desc">${challenge.description}</p>
+    <div class="challenge-goal"><strong>Goal:</strong> ${challenge.goal}</div>
+    <div class="note-area${note ? ' expanded' : ''}">
+      <button class="note-toggle" onclick="toggleNote(event,'${challenge.id}')">${note ? '▾ Notes' : '+ Add note'}</button>
+      <textarea class="note-textarea" id="note-${challenge.id}"
+        placeholder="Your notes…"
+        onclick="event.stopPropagation()"
+        onkeydown="event.stopPropagation()"
+        oninput="handleNoteChange('${challenge.id}')"
+        onblur="handleNoteChange('${challenge.id}')">${escapeHtml(note)}</textarea>
+    </div>
+  </div>
+</div>`;
 }
 
+// ─── Notes ────────────────────────────────────────────────────────────────────
+
+function toggleNote(event, id) {
+  event.stopPropagation();
+  const area = event.target.closest('.note-area');
+  const expand = !area.classList.contains('expanded');
+  area.classList.toggle('expanded', expand);
+  const btn = area.querySelector('.note-toggle');
+  if (expand) {
+    btn.textContent = '▾ Notes';
+    area.querySelector('.note-textarea').focus();
+  } else {
+    btn.textContent = state.notes[id] ? '▾ Notes' : '+ Add note';
+  }
+}
+
+function handleNoteChange(id) {
+  const ta = document.getElementById('note-' + id);
+  if (!ta) return;
+  state.notes[id] = ta.value;
+  saveState();
+}
+
+// ─── Sections ─────────────────────────────────────────────────────────────────
+
 function renderSection(section) {
-  const ls = getSectionLessonStats(section.id);
-  const cs = getSectionChallengeStats(section.id);
-
-  let lessonsHtml = '';
-  section.lessons.forEach(l => { lessonsHtml += renderLessonCard(l, section.id); });
-
-  let challengesHtml = '';
-  section.challenges.forEach(c => { challengesHtml += renderChallengeCard(c, section.id); });
-
-  return `
-    <div class="section-block" id="section-${section.id}" data-level="${section.level}">
-      <div class="section-header">
-        <span class="section-badge">${escapeHtml(section.level)}</span>
-        <h2 class="section-title">${escapeHtml(section.title)}</h2>
-      </div>
-      <p class="section-desc">${escapeHtml(section.description)}</p>
-
-      <div class="subsection-heading">
-        <span class="subsection-heading-text">Lessons</span>
-        <span class="subsection-count" id="lcount-${section.id}">${ls.done} / ${ls.total} completed</span>
-        <div class="subsection-line"></div>
-      </div>
-      ${lessonsHtml}
-
-      <div class="subsection-heading">
-        <span class="subsection-heading-text">Challenges</span>
-        <span class="subsection-count" id="ccount-${section.id}">${cs.done} / ${cs.total} completed</span>
-        <div class="subsection-line"></div>
-      </div>
-      ${challengesHtml}
-    </div>`;
+  const allL = section.lessons.every(l => state.lessons[l.id]);
+  const allC = section.challenges.every(c => state.challenges[c.id]);
+  return `<div class="section-block" id="section-${section.id}" data-level="${section.level}">
+  <div class="section-header">
+    <span class="section-badge">${section.title}</span>
+    <span class="section-desc">${section.description}</span>
+  </div>
+  <div class="subsection lessons-sub" data-section="${section.id}" data-type="lessons">
+    <div class="subsection-heading">
+      <span class="subsection-heading-text">Lessons</span>
+      <span class="subsection-count">${section.lessons.length}</span>
+      <div class="subsection-line"></div>
+      <button class="mark-all-btn"
+        onclick="handleMarkAll(event,'${section.id}','lessons',${allL ? 'false' : 'true'})">
+        ${allL ? 'Clear all' : 'Mark all'}
+      </button>
+    </div>
+    ${section.lessons.map(l => renderLessonCard(l, section.id)).join('')}
+  </div>
+  <div class="subsection challenges-sub" data-section="${section.id}" data-type="challenges">
+    <div class="subsection-heading">
+      <span class="subsection-heading-text">Challenges</span>
+      <span class="subsection-count">${section.challenges.length}</span>
+      <div class="subsection-line"></div>
+      <button class="mark-all-btn"
+        onclick="handleMarkAll(event,'${section.id}','challenges',${allC ? 'false' : 'true'})">
+        ${allC ? 'Clear all' : 'Mark all'}
+      </button>
+    </div>
+    ${section.challenges.map(c => renderChallengeCard(c, section.id)).join('')}
+  </div>
+</div>`;
 }
 
 function render() {
-  const main = document.getElementById('main-content');
-  let html = `
-    <div class="completion-banner" id="completion-banner">
-      <div class="completion-banner-icon">🎓</div>
-      <div class="completion-banner-text">
-        <h3>Learning Path Complete!</h3>
-        <p>You've completed all lessons and challenges. You're now an expert GIMP user.</p>
-      </div>
-    </div>`;
-  LEARNING_PATH.forEach(section => { html += renderSection(section); });
-  main.innerHTML = html;
+  document.getElementById('main-content').innerHTML =
+    LEARNING_PATH.map(s => renderSection(s)).join('');
 }
 
-/* ── In-place DOM updates (fast path, no re-render) ──────────── */
-function updateCardDOM(id, type) {
-  const done = type === 'lesson' ? !!state.lessons[id] : !!state.challenges[id];
-  const card  = document.getElementById('card-' + id);
-  const check = document.getElementById('check-' + id);
-  const title = document.getElementById('title-' + id);
-  if (!card) return;
-  card.classList.toggle('completed', done);
-  if (check) { check.textContent = done ? '✓' : ''; }
-}
+// ─── Toggle Handlers ──────────────────────────────────────────────────────────
 
-function updateSectionCounts(sectionId) {
-  const ls = getSectionLessonStats(sectionId);
-  const cs = getSectionChallengeStats(sectionId);
-  const lc = document.getElementById('lcount-' + sectionId);
-  const cc = document.getElementById('ccount-' + sectionId);
-  if (lc) lc.textContent = `${ls.done} / ${ls.total} completed`;
-  if (cc) cc.textContent = `${cs.done} / ${cs.total} completed`;
-
-  const nc = document.getElementById('nav-count-' + sectionId);
-  if (nc) nc.textContent = `${ls.done + cs.done}/${ls.total + cs.total}`;
-
-  const sl = document.getElementById('sidebar-lesson-count');
-  const sc = document.getElementById('sidebar-challenge-count');
-  const gls = getLessonStats();
-  const gcs = getChallengeStats();
-  if (sl) sl.textContent = `${gls.done} / ${gls.total}`;
-  if (sc) sc.textContent = `${gcs.done} / ${gcs.total}`;
-}
-
-/* ── Event handlers ──────────────────────────────────────────── */
 function handleLessonToggle(id, sectionId) {
   state.lessons[id] = !state.lessons[id];
   saveState();
-  updateCardDOM(id, 'lesson');
-  updateSectionCounts(sectionId);
+  const card = document.getElementById('card-' + id);
+  if (card) {
+    card.classList.toggle('completed', state.lessons[id]);
+    card.querySelector('.lesson-checkbox').textContent = state.lessons[id] ? '✓' : '';
+  }
   renderProgressBars();
+  updateRing(sectionId);
+  updateMarkAllBtn(sectionId, 'lessons');
+  applySearchAndFilter();
 }
 
-function handleChallengeToggle(id, sectionId) {
+function handleChallengeToggle(id, sectionId, event) {
+  if (event && event.target.closest && event.target.closest('.note-area')) return;
   state.challenges[id] = !state.challenges[id];
   saveState();
-  updateCardDOM(id, 'challenge');
-  updateSectionCounts(sectionId);
+  const card = document.getElementById('card-' + id);
+  if (card) {
+    card.classList.toggle('completed', state.challenges[id]);
+    card.querySelector('.challenge-checkbox').textContent = state.challenges[id] ? '✓' : '';
+  }
   renderProgressBars();
+  updateRing(sectionId);
+  updateMarkAllBtn(sectionId, 'challenges');
+  applySearchAndFilter();
 }
 
-function handleNavClick(e, sectionId) {
-  e.preventDefault();
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  e.currentTarget.classList.add('active');
-  const target = document.getElementById('section-' + sectionId);
-  if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+function updateMarkAllBtn(sectionId, type) {
+  const sub = document.querySelector(`.subsection[data-section="${sectionId}"][data-type="${type}"]`);
+  if (!sub) return;
+  const btn     = sub.querySelector('.mark-all-btn');
+  const section = LEARNING_PATH.find(s => s.id === sectionId);
+  const allDone = type === 'lessons'
+    ? section.lessons.every(l => state.lessons[l.id])
+    : section.challenges.every(c => state.challenges[c.id]);
+  btn.textContent = allDone ? 'Clear all' : 'Mark all';
+  btn.setAttribute('onclick', `handleMarkAll(event,'${sectionId}','${type}',${allDone ? 'false' : 'true'})`);
 }
 
-/* ── Import / Export / Reset ─────────────────────────────────── */
-function handleExport() {
-  const date = new Date().toISOString().slice(0, 10);
-  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href     = url;
-  a.download = `gimp-progress-${date}.json`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  showToast('Progress exported successfully.', 'success');
+function handleMarkAll(event, sectionId, type, value) {
+  event.stopPropagation();
+  const section = LEARNING_PATH.find(s => s.id === sectionId);
+  if (type === 'lessons') {
+    section.lessons.forEach(l => { state.lessons[l.id] = value; });
+  } else {
+    section.challenges.forEach(c => { state.challenges[c.id] = value; });
+  }
+  saveState();
+  fullRerender();
 }
 
-function handleImportButton() {
-  document.getElementById('import-file').click();
+// ─── Search & Filter ──────────────────────────────────────────────────────────
+
+function handleSearch() {
+  searchQuery = document.getElementById('search-input').value.toLowerCase().trim();
+  const clearBtn = document.getElementById('search-clear');
+  clearBtn.classList.toggle('visible', !!searchQuery);
+  applySearchAndFilter();
 }
 
-function handleImport(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      const data = JSON.parse(e.target.result);
-      if (!data || typeof data !== 'object' || !data.lessons || !data.challenges) {
-        showToast('Invalid progress file.', 'error');
-        return;
-      }
-      const def = defaultState();
-      state.lessons    = Object.assign({}, def.lessons,    data.lessons);
-      state.challenges = Object.assign({}, def.challenges, data.challenges);
-      saveState();
-      render();
-      renderProgressBars();
-      showToast('Progress imported successfully.', 'success');
-    } catch (err) {
-      showToast('Failed to parse JSON file.', 'error');
+function clearSearch() {
+  document.getElementById('search-input').value = '';
+  searchQuery = '';
+  document.getElementById('search-clear').classList.remove('visible');
+  applySearchAndFilter();
+}
+
+function handleFilter(filter) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-pill').forEach(btn =>
+    btn.classList.toggle('active', btn.dataset.filter === filter)
+  );
+  applySearchAndFilter();
+}
+
+function applySearchAndFilter() {
+  document.querySelectorAll('.lesson-card, .challenge-card').forEach(card => {
+    const id       = card.id.replace('card-', '');
+    const isLesson = card.classList.contains('lesson-card');
+    const section  = card.closest('.section-block');
+    const level    = section ? section.dataset.level : '';
+    let show = true;
+
+    if (searchQuery) {
+      show = card.textContent.toLowerCase().includes(searchQuery);
     }
-    event.target.value = '';
-  };
-  reader.readAsText(file);
+
+    if (show && currentFilter !== 'all') {
+      switch (currentFilter) {
+        case 'lessons':     if (!isLesson)  show = false; break;
+        case 'challenges':  if (isLesson)   show = false; break;
+        case 'uncompleted': {
+          const done = isLesson ? !!state.lessons[id] : !!state.challenges[id];
+          if (done) show = false;
+          break;
+        }
+        default:
+          if (level !== currentFilter) show = false;
+      }
+    }
+
+    card.style.display = show ? '' : 'none';
+  });
+
+  // hide subsections with no visible cards
+  document.querySelectorAll('.subsection').forEach(sub => {
+    const anyVisible = Array.from(sub.querySelectorAll('.lesson-card, .challenge-card'))
+      .some(c => c.style.display !== 'none');
+    sub.style.display = anyVisible ? '' : 'none';
+  });
+
+  // hide section blocks with no visible subsections
+  document.querySelectorAll('.section-block').forEach(block => {
+    const anyVisible = Array.from(block.querySelectorAll('.subsection'))
+      .some(s => s.style.display !== 'none');
+    block.style.display = anyVisible ? '' : 'none';
+  });
 }
+
+// ─── Keyboard Navigation ──────────────────────────────────────────────────────
+
+function getVisibleCards() {
+  return Array.from(document.querySelectorAll('.lesson-card, .challenge-card'))
+    .filter(c => c.style.display !== 'none' && c.offsetParent !== null);
+}
+
+function setFocusedCard(id) {
+  if (focusedCardId) {
+    const prev = document.getElementById('card-' + focusedCardId);
+    if (prev) prev.classList.remove('card-focused');
+  }
+  focusedCardId = id;
+  if (id) {
+    const card = document.getElementById('card-' + id);
+    if (card) {
+      card.classList.add('card-focused');
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      card.focus({ preventScroll: true });
+    }
+  }
+}
+
+function setupKeyboardNav() {
+  document.addEventListener('keydown', function (e) {
+    const tag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+    if (tag === 'input' || tag === 'textarea') {
+      if (e.key === 'Escape') {
+        document.activeElement.blur();
+        if (tag === 'input') clearSearch();
+      }
+      return;
+    }
+
+    const cards = getVisibleCards();
+    const idx   = focusedCardId
+      ? cards.findIndex(c => c.id === 'card-' + focusedCardId)
+      : -1;
+
+    switch (e.key) {
+      case 'j':
+      case 'ArrowDown': {
+        e.preventDefault();
+        const next = cards[idx + 1] || cards[0];
+        if (next) setFocusedCard(next.id.replace('card-', ''));
+        break;
+      }
+      case 'k':
+      case 'ArrowUp': {
+        e.preventDefault();
+        const prev = cards[idx - 1] || cards[cards.length - 1];
+        if (prev) setFocusedCard(prev.id.replace('card-', ''));
+        break;
+      }
+      case ' ': {
+        if (focusedCardId) {
+          e.preventDefault();
+          const card = document.getElementById('card-' + focusedCardId);
+          if (card) card.click();
+        }
+        break;
+      }
+      case '/':
+        e.preventDefault();
+        document.getElementById('search-input').focus();
+        break;
+      case '?':
+        showToast('j/↓ next  ·  k/↑ prev  ·  Space toggle  ·  / search  ·  Esc close', 'info');
+        break;
+      case 'Escape': {
+        const modal = document.getElementById('reset-modal');
+        if (modal.classList.contains('open')) {
+          closeModal();
+        } else {
+          clearSearch();
+        }
+        break;
+      }
+    }
+  });
+}
+
+// ─── Jump to Next ─────────────────────────────────────────────────────────────
+
+function handleJumpNext() {
+  for (const section of LEARNING_PATH) {
+    for (const lesson of section.lessons) {
+      if (!state.lessons[lesson.id]) {
+        const card = document.getElementById('card-' + lesson.id);
+        if (card && card.style.display !== 'none') {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setFocusedCard(lesson.id);
+          setTimeout(() => { if (focusedCardId === lesson.id) card.classList.remove('card-focused'); }, 1500);
+          return;
+        }
+      }
+    }
+    for (const challenge of section.challenges) {
+      if (!state.challenges[challenge.id]) {
+        const card = document.getElementById('card-' + challenge.id);
+        if (card && card.style.display !== 'none') {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setFocusedCard(challenge.id);
+          setTimeout(() => { if (focusedCardId === challenge.id) card.classList.remove('card-focused'); }, 1500);
+          return;
+        }
+      }
+    }
+  }
+  showToast('All items completed! 🎉', 'info');
+}
+
+// ─── Scroll Spy ───────────────────────────────────────────────────────────────
+
+function setupScrollSpy() {
+  if (scrollObserver) scrollObserver.disconnect();
+  scrollObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        updateSidebarActive(entry.target.id.replace('section-', ''));
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '-20% 0px -60% 0px' });
+  document.querySelectorAll('.section-block').forEach(s => scrollObserver.observe(s));
+}
+
+// ─── Toast ────────────────────────────────────────────────────────────────────
+
+let toastTimer = null;
+
+function showToast(msg, type) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = 'toast show' + (type ? ' ' + type : '');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { toast.className = 'toast'; }, 3000);
+}
+
+// ─── Modal ────────────────────────────────────────────────────────────────────
 
 function handleResetClick() {
   document.getElementById('reset-modal').classList.add('open');
@@ -1379,62 +1802,85 @@ function closeModal() {
 }
 
 function confirmReset() {
+  closeModal();
   state = defaultState();
   saveState();
-  closeModal();
-  render();
-  renderProgressBars();
-  showToast('Progress reset.', 'success');
+  fullRerender();
+  showToast('Progress reset.', '');
 }
 
-/* ── Toast ───────────────────────────────────────────────────── */
-let toastTimer = null;
-function showToast(msg, type = 'success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className   = `toast ${type} show`;
-  if (toastTimer) clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { t.classList.remove('show'); }, 2800);
+// ─── Import / Export ──────────────────────────────────────────────────────────
+
+function handleExport() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const a    = document.createElement('a');
+  a.href     = URL.createObjectURL(blob);
+  a.download = 'gimp-learning-path-progress.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
-/* ── Intersection observer for sidebar active state ─────────── */
-function setupScrollSpy() {
-  const sectionIds = LEARNING_PATH.map(s => s.id);
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id.replace('section-', '');
-        document.querySelectorAll('.nav-item').forEach(n => {
-          n.classList.toggle('active', n.dataset.section === id);
-        });
-      }
-    });
-  }, { threshold: 0.25 });
-
-  sectionIds.forEach(id => {
-    const el = document.getElementById('section-' + id);
-    if (el) observer.observe(el);
-  });
+function handleImportButton() {
+  document.getElementById('import-file').click();
 }
 
-/* ── Init ────────────────────────────────────────────────────── */
-function init() {
-  loadState();
+function handleImportFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function (ev) {
+    try {
+      const parsed = JSON.parse(ev.target.result);
+      const def    = defaultState();
+      state = {
+        version:    2,
+        theme:      parsed.theme      || def.theme,
+        lessons:    Object.assign({}, def.lessons,    parsed.lessons    || {}),
+        challenges: Object.assign({}, def.challenges, parsed.challenges || {}),
+        notes:      Object.assign({}, def.notes,      parsed.notes      || {})
+      };
+      saveState();
+      applyTheme(state.theme);
+      fullRerender();
+      showToast('Progress imported!', 'info');
+    } catch (err) {
+      showToast('Import failed: invalid JSON.', 'error');
+    }
+    e.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+// ─── Full Re-Render ───────────────────────────────────────────────────────────
+
+function fullRerender() {
   renderSidebar();
   render();
   renderProgressBars();
   setupScrollSpy();
+  applySearchAndFilter();
+}
 
-  document.getElementById('import-file').addEventListener('change', handleImport);
-  document.getElementById('reset-modal').addEventListener('click', function(e) {
-    if (e.target === this) closeModal();
-  });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeModal();
-  });
+// ─── Init ─────────────────────────────────────────────────────────────────────
+
+function init() {
+  const fromHash = decodeStateFromHash();
+  state = fromHash || loadState();
+  if (fromHash) {
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  }
+
+  applyTheme(state.theme);
+  fullRerender();
+
+  document.getElementById('search-input').addEventListener('input', handleSearch);
+  document.getElementById('import-file').addEventListener('change', handleImportFile);
+
+  setupKeyboardNav();
 }
 
 document.addEventListener('DOMContentLoaded', init);
+
 </script>
 </body>
 </html>
