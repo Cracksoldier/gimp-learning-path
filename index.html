@@ -51,14 +51,17 @@
 
 /* ── Reset ──────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; height: 100%; }
 body {
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   background: var(--bg);
   color: var(--text);
   font-size: 14px;
   line-height: 1.6;
-  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 button { cursor: pointer; font-family: inherit; }
 input[type="file"] { display: none; }
@@ -69,8 +72,7 @@ a { color: var(--accent); text-decoration: none; }
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   padding: 16px 24px;
-  position: sticky;
-  top: 0;
+  flex-shrink: 0;
   z-index: 100;
 }
 .header-top {
@@ -242,7 +244,9 @@ a { color: var(--accent); text-decoration: none; }
 /* ── Layout shell ────────────────────────────────────────────── */
 .app-body {
   display: flex;
-  min-height: calc(100vh - 1px);
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 /* ── Sidebar ─────────────────────────────────────────────────── */
@@ -252,9 +256,6 @@ a { color: var(--accent); text-decoration: none; }
   background: var(--surface);
   border-right: 1px solid var(--border);
   padding: 20px 0;
-  position: sticky;
-  top: 0;
-  height: 100vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -322,6 +323,7 @@ a { color: var(--accent); text-decoration: none; }
   padding: 32px 36px;
   max-width: 920px;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* ── Completion banner ───────────────────────────────────────── */
@@ -737,11 +739,12 @@ a { color: var(--accent); text-decoration: none; }
 
 /* ── Print ───────────────────────────────────────────────────── */
 @media print {
+  html, body { height: auto; overflow: visible; display: block; }
   .app-header { position: static; }
   .header-actions, .toolbar-row, .sidebar, .toast, .modal-overlay,
   .completion-banner, .mark-all-btn { display: none !important; }
-  .app-body { display: block; }
-  .main-content { padding: 0; max-width: 100%; }
+  .app-body { display: block; overflow: visible; }
+  .main-content { padding: 0; max-width: 100%; overflow: visible; }
   .section-block { break-before: page; animation: none; opacity: 1 !important; }
   .section-block:first-child { break-before: auto; }
   .concept-chips, .note-area { display: none !important; }
@@ -1377,12 +1380,19 @@ function sectionProgress(section) {
   return done / items;
 }
 
+function scrollToSection(event, sectionId) {
+  event.preventDefault();
+  const el = document.getElementById('section-' + sectionId);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function renderSidebar() {
   document.getElementById('sidebar').innerHTML = LEARNING_PATH.map(section => {
     const pct    = sectionProgress(section) * 100;
     const offset = (RING_C * (1 - pct / 100)).toFixed(2);
     return `<a class="nav-item" href="#section-${section.id}"
-   data-section="${section.id}" data-level="${section.level}">
+   data-section="${section.id}" data-level="${section.level}"
+   onclick="scrollToSection(event,'${section.id}')">
   <svg width="22" height="22" class="progress-ring" viewBox="0 0 22 22">
     <circle cx="11" cy="11" r="8" fill="none" stroke="var(--border)" stroke-width="2.5"/>
     <circle cx="11" cy="11" r="8" fill="none" stroke="var(--${section.level})" stroke-width="2.5"
@@ -1773,13 +1783,14 @@ function handleJumpNext() {
 
 function setupScrollSpy() {
   if (scrollObserver) scrollObserver.disconnect();
+  const mainEl = document.getElementById('main-content');
   scrollObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         updateSidebarActive(entry.target.id.replace('section-', ''));
       }
     });
-  }, { threshold: 0.15, rootMargin: '-20% 0px -60% 0px' });
+  }, { root: mainEl, threshold: 0.15, rootMargin: '-20% 0px -60% 0px' });
   document.querySelectorAll('.section-block').forEach(s => scrollObserver.observe(s));
 }
 

@@ -42,14 +42,17 @@
 
 /* ── Reset ──────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; height: 100%; }
 body {
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   background: var(--bg);
   color: var(--text);
   font-size: 14px;
   line-height: 1.6;
-  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 button { cursor: pointer; font-family: inherit; }
 input[type="file"] { display: none; }
@@ -60,8 +63,7 @@ a { color: var(--accent); text-decoration: none; }
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   padding: 16px 24px;
-  position: sticky;
-  top: 0;
+  flex-shrink: 0;
   z-index: 100;
 }
 .header-top {
@@ -233,7 +235,9 @@ a { color: var(--accent); text-decoration: none; }
 /* ── Layout shell ────────────────────────────────────────────── */
 .app-body {
   display: flex;
-  min-height: calc(100vh - 1px);
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 /* ── Sidebar ─────────────────────────────────────────────────── */
@@ -243,9 +247,6 @@ a { color: var(--accent); text-decoration: none; }
   background: var(--surface);
   border-right: 1px solid var(--border);
   padding: 20px 0;
-  position: sticky;
-  top: 0;
-  height: 100vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -313,6 +314,7 @@ a { color: var(--accent); text-decoration: none; }
   padding: 32px 36px;
   max-width: 920px;
   overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* ── Completion banner ───────────────────────────────────────── */
@@ -728,11 +730,12 @@ a { color: var(--accent); text-decoration: none; }
 
 /* ── Print ───────────────────────────────────────────────────── */
 @media print {
+  html, body { height: auto; overflow: visible; display: block; }
   .app-header { position: static; }
   .header-actions, .toolbar-row, .sidebar, .toast, .modal-overlay,
   .completion-banner, .mark-all-btn { display: none !important; }
-  .app-body { display: block; }
-  .main-content { padding: 0; max-width: 100%; }
+  .app-body { display: block; overflow: visible; }
+  .main-content { padding: 0; max-width: 100%; overflow: visible; }
   .section-block { break-before: page; animation: none; opacity: 1 !important; }
   .section-block:first-child { break-before: auto; }
   .concept-chips, .note-area { display: none !important; }

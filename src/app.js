@@ -127,12 +127,19 @@ function sectionProgress(section) {
   return done / items;
 }
 
+function scrollToSection(event, sectionId) {
+  event.preventDefault();
+  const el = document.getElementById('section-' + sectionId);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function renderSidebar() {
   document.getElementById('sidebar').innerHTML = LEARNING_PATH.map(section => {
     const pct    = sectionProgress(section) * 100;
     const offset = (RING_C * (1 - pct / 100)).toFixed(2);
     return `<a class="nav-item" href="#section-${section.id}"
-   data-section="${section.id}" data-level="${section.level}">
+   data-section="${section.id}" data-level="${section.level}"
+   onclick="scrollToSection(event,'${section.id}')">
   <svg width="22" height="22" class="progress-ring" viewBox="0 0 22 22">
     <circle cx="11" cy="11" r="8" fill="none" stroke="var(--border)" stroke-width="2.5"/>
     <circle cx="11" cy="11" r="8" fill="none" stroke="var(--${section.level})" stroke-width="2.5"
@@ -523,13 +530,14 @@ function handleJumpNext() {
 
 function setupScrollSpy() {
   if (scrollObserver) scrollObserver.disconnect();
+  const mainEl = document.getElementById('main-content');
   scrollObserver = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         updateSidebarActive(entry.target.id.replace('section-', ''));
       }
     });
-  }, { threshold: 0.15, rootMargin: '-20% 0px -60% 0px' });
+  }, { root: mainEl, threshold: 0.15, rootMargin: '-20% 0px -60% 0px' });
   document.querySelectorAll('.section-block').forEach(s => scrollObserver.observe(s));
 }
 
